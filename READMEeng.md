@@ -16,14 +16,13 @@ I used deepl + simple proofreading to translate this document to English, if the
 * ### [Copyright Statement](#Copyright-Statement)
 * ### [Support my Work](#Support-my-Work)
 ## Copyright Statement
-According to the [EULA](https://store.steampowered.com//eula/1128860_eula_0)  of MOW II, I shall have full rights to this repository, granting also all rights mentioned in the EULA of Fulqrum Publishing Ltd.
-All data in the Computer Graphics Materials section are copyrighted by their authors, and I use them in this repository in a certain way by means of a specific agreement (e.g. MIT), according to the specifics of which I will make a copyright notice in the corresponding folder.
-For the reader,you, I grant you the right to use all my copyrighted data in this repository based on the MIT agreement. I will also maintain such agreements in any future additions.
-These agreements are essential for the establishment of the ideas in the next section.
+According to the [EULA](https://store.steampowered.com//eula/1128860_eula_0)  of MOW II, I shall have full rights to this repository, granting also all rights mentioned in the EULA of Fulqrum Publishing Ltd.  
+All data in the Computer Graphics Materials section are copyrighted by their authors, and I use them in this repository in a certain way by means of a specific agreement (e.g. MIT), according to the specifics of which I will make a copyright notice in the corresponding folder.  
+For the reader,you, I grant you the right to use all my copyrighted data in this repository based on the MIT agreement. I will also maintain such agreements in any future additions.  
+These agreements are essential for the establishment of the ideas in the next section.  
 ## Support my Work
-First of all, if you like my products, please give this repository a STAR, I'd appreciate it =)
+First of all, if you like my products, please give this repository a STAR, I'd appreciate it =)  
   
-Secondly, you can support my work with **money** in the following ways, but any direct benefits you can get is **LIMITED** to the fact that you'll be given more weight for making suggestions to WSP. Or I will prioritize your suggestions. **However** on top of that, the difficulty of implementing a new suggestion, other people's opinions and my personal schedule, and other necessary issues **still** will be taken into account to determine if it should actually be prioritized.
-At the same time, all development results remain completely free and open source. I think this is important: there will be no backer specials, no prioritized benefits, and the results should be shared by all.
-  
-If you're interested in my approach, feel free to read further [some of my ideas](./en/additional/openSource.md)。
+Secondly, you can support my work with **money** in the following ways, but any direct benefits you can get is **LIMITED** to the fact that you'll be given more weight for making suggestions to WSP. Or I will prioritize your suggestions. **However** on top of that, the difficulty of implementing a new suggestion, other people's opinions and my personal schedule, and other necessary issues **still** will be taken into account to determine if it should actually be prioritized.  
+At the same time, all development results remain completely free and open source. I think this is important: there will be no backer specials, no prioritized benefits, and the results should be shared by all.  
+If you're interested in my approach, feel free to read further [some of my ideas](./en/additional/openSource.md).  

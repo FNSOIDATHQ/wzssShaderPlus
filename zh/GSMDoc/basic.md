@@ -7,7 +7,7 @@
 *  [返回](./menu.md)
 
 # GSM文件结构概述
-所有的GSM文件都存储在set\material\lib目录下，其中的子文件夹对代码本身没有特别的意义，可以按照喜好创建任意名字的文件夹。
+所有的GSM文件都存储在set\material\lib目录下，其中的子文件夹对代码本身没有特别的意义，可以按照喜好创建任意名字的文件夹。  
 Men of War II\modeling\resource\set\material\lib中存储了官方的GSM代码，可以作为代码参考。
 
 标准的GSM文件如下所示
@@ -30,8 +30,8 @@ Men of War II\modeling\resource\set\material\lib中存储了官方的GSM代码�
   {l1 a b};链接语句
 }
 ```
- 我不会在这里从头教MOW II的脚本语法，详见[Basic knowledge about configuration files | GEM RTS v1 | Documentation (gitbook.io)](https://bestway-1.gitbook.io/documentation/foundational-knowledge/basic-knowledge-about-configuration-files)
-所以让我们直接从GSM本身的结构开始：
+ 我不会在这里从头教MOW II的脚本语法，详见[Basic knowledge about configuration files | GEM RTS v1 | Documentation (gitbook.io)](https://bestway-1.gitbook.io/documentation/foundational-knowledge/basic-knowledge-about-configuration-files)  
+所以让我们直接从GSM本身的结构开始：  
 在这里我们将一个大括号{}包括的内容称为一个**代码块**（我稍后解释为什么这么叫），那么
 >一个GSM文件总是由一个名称为"Material"的代码块组成，我们叫它主代码块；
 >
@@ -62,7 +62,7 @@ Men of War II\modeling\resource\set\material\lib中存储了官方的GSM代码�
     * 该部分不是必须的。
     * 其中comments是一个特殊的参数，它会被视作注释，与直接使用 ; 符号注释相似。我猜测这样注释可以在材质编辑器中显示
 
-除了[少数情况](./custom.md)代码块的输入输出并不直接显示。
+除了[少数情况](./custom.md)代码块的输入输出并不直接显示。  
 具体可用的代码块类型在[可用的代码块类型](./codeBlock.md)中展示。
 
 # 链接语句
@@ -72,26 +72,26 @@ GSM支持两种类型的代码块间引脚链接
     {l1 a b}
     {l2 a x b y}
 ```
-l1=简单引脚链接
-{l1 a b}=将a块的第0个输出作为b块的第0个输入
-l2=特定引脚链接
-{l2 a x b y}=将a块的第x个输出作为b块的第y个输入
-引脚计数从0开始
+l1=简单引脚链接  
+{l1 a b}=将a块的第0个输出作为b块的第0个输入  
+l2=特定引脚链接  
+{l2 a x b y}=将a块的第x个输出作为b块的第y个输入  
+引脚计数从0开始  
 
 你可能会在实际的官方代码里看到
 ```
     {l1 a b m n o}
     {l2 a x b y m n o}
 ```
-这样的链接代码，很可惜我还不知道额外的参数m n o等有什么意义。
-一个很可能的猜测是这些参数被用于材质编辑器：定义某种固定可视化链接线条的锚点或者别的什么东西
+这样的链接代码，很可惜我还不知道额外的参数m n o等有什么意义。  
+一个很可能的猜测是这些参数被用于材质编辑器：定义某种固定可视化链接线条的锚点或者别的什么东西。  
 无论如何，就我观测到的情况而言，无视这些参数目前是无害的。
 
 # 输入输出
-目前，你可以**假设**GSM的输入全部由代码块引入，所以我们会在GSM中实现一个从各种代码块输入参数，进行各种计算并最终汇总到输出块的函数。但是请注意，这个假设是**错误**的，我们会在[内置辅助函数及变量](./helper.md)和[自定义代码块](./custom.md)两个章节中提到不符合这个假设的内容。
+目前，你可以**假设**GSM的输入全部由代码块引入，所以我们会在GSM中实现一个从各种代码块输入参数，进行各种计算并最终汇总到输出块的函数。但是请注意，这个假设是**错误**的，我们会在[内置辅助函数及变量](./helper.md)和[自定义代码块](./custom.md)两个章节中提到不符合这个假设的内容。  
 但是在目前，这样思考并编写代码是没有问题的。
 
-输入是多种多样的，我们会在[可用的代码块类型](./codeBlock.md)中阐述。在这里我们只关注GSM的输出，即输出块的相关知识。
+输入是多种多样的，我们会在[可用的代码块类型](./codeBlock.md)中阐述。在这里我们只关注GSM的输出，即输出块的相关知识。  
 通过在properties中定义lighting_model（即光照模型）字符串，GSM支持以下四种不同类型的输出：
 * 无参数
 * phong
@@ -104,9 +104,9 @@ l2=特定引脚链接
     * phong和phong_gem2是基于经验公式的传统光照模型，gem2可能拥有一些更先进的功能，但是我没有深究这其中的区别，类似的，我也没有记录这些光照模型的引脚类型，这部分内容会在之后补充。
     * metallic_roughness是基于金属度-粗糙度的PBR光照模型，我们简称为PBR或者PBR模型，这是我们接下来要关注的重点内容
 
-参考该图
-<img src=../../img/mted.png width=50% />
-PBR模型的引脚对照表如下
+参考该图  
+<img src=../../img/mted.png width=50% />  
+PBR模型的引脚对照表如下  
 | diffuse | emissive| opacity | normal | transform | translucence | roughness | metallic | shadow | fresnel |
 | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
 | 0     | 1     | 2     | 5     | 6     | 8     | 9     | 20     | 21     | 22     |
@@ -120,41 +120,41 @@ PBR模型的引脚对照表如下
 接下来我们介绍每个引脚的具体含义：
 
 ### diffuse
-数据类型：float3
-漫反射引脚，一般输出数据为包含RGB三通道颜色的信息。
-其用于显示物体最基本的固有颜色。
+数据类型：float3  
+漫反射引脚，一般输出数据为包含RGB三通道颜色的信息。  
+其用于显示物体最基本的固有颜色。  
 ### emissive
-数据类型：float3
-自发光引脚，大致可以理解成输出一个不受环境光照影响的漫反射贴图，因为MOW II的自发光贴图并不参与全局光照计算。
+数据类型：float3  
+自发光引脚，大致可以理解成输出一个不受环境光照影响的漫反射贴图，因为MOW II的自发光贴图并不参与全局光照计算。  
 ### opacity
-数据类型：float
+数据类型：float  
 透明度引脚，需要注意的是它只负责输出透明度，透明的具体计算方式仍然由mtl中的{blend X}参数控制。
 ### normal
-数据类型：float3
+数据类型：float3  
 法线引脚，输出世界空间（很可能是，不确定）的法线信息。
 ### transform
-顶点变换引脚，输出对顶点信息的改动。
-该引脚非常特殊，无法简单描述它的数据类型，我们将在[自定义代码块](./custom.md)中提到它的具体使用。平常情况下不需要连接该引脚，着色器的其他部分会完成该引脚涉及到的一般流程。
+顶点变换引脚，输出对顶点信息的改动。  
+该引脚非常特殊，无法简单描述它的数据类型，我们将在[自定义代码块](./custom.md)中提到它的具体使用。平常情况下不需要连接该引脚，着色器的其他部分会完成该引脚涉及到的一般流程。  
 ### translucence
-数据类型：float3
-透光度引脚
-我对该引脚的理解不深入，大致效果可以参考[半透明明暗器](https://help.autodesk.com/view/3DSMAX/2022/CHS/?guid=GUID-67CD32E8-A0D5-4A14-8179-FB11D3E3DD28)
-请注意，它很可能与次表面散射无关。
-一般情况下也不需要连接该引脚。
+数据类型：float3  
+透光度引脚  
+我对该引脚的理解不深入，大致效果可以参考[半透明明暗器](https://help.autodesk.com/view/3DSMAX/2022/CHS/?guid=GUID-67CD32E8-A0D5-4A14-8179-FB11D3E3DD28)  
+请注意，它很可能与次表面散射无关。  
+一般情况下也不需要连接该引脚。  
 ### roughness
-数据类型：float
-粗糙度引脚，该值越高物体的表面越粗糙，反之则越光滑。
-我们偶尔会提到另一个词汇smoothness（光滑度），其是粗糙度的反相。
+数据类型：float  
+粗糙度引脚，该值越高物体的表面越粗糙，反之则越光滑。  
+我们偶尔会提到另一个词汇smoothness（光滑度），其是粗糙度的反相。  
 ### metallic
-数据类型：float
+数据类型：float  
 金属度引脚，该值越高物体的表面越像金属，反之不像光滑。
 ### shadow
-数据类型：float
-实际上应该被称为Ambient Occlusion（环境光遮蔽），也并不能完全改变阴影。
+数据类型：float  
+实际上应该被称为Ambient Occlusion（环境光遮蔽），也并不能完全改变阴影。  
 其的值越大，则阴影越重。
 ### fresnel
-数据类型：float
-其代表PBR中的f0值，f0的意义可以参考[材质制作参数F0](https://liangz0707.github.io/whoimi/blogs/Art/%E6%9D%90%E8%B4%A8%E5%88%B6%E4%BD%9C%E5%8F%82%E6%95%B0F0.html)，其与物体的折射率有关。
+数据类型：float  
+其代表PBR中的f0值，f0的意义可以参考[材质制作参数F0](https://liangz0707.github.io/whoimi/blogs/Art/%E6%9D%90%E8%B4%A8%E5%88%B6%E4%BD%9C%E5%8F%82%E6%95%B0F0.html)，其与物体的折射率有关。  
 如果你不知道这是什么，不要连接该引脚，着色器会调用一个默认值。
 
 # 其它基础知识
