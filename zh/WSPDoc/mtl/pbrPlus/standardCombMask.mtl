@@ -1,0 +1,26 @@
+{"pbrPlus/standardCombMask" 
+	;贴图参数
+	;注意：缺失贴图参数可能会导致随机崩溃！
+	;如果你不需要对应的贴图，使用占位符替代
+	;在 $/pbr 有三个占位符 0_ao=环境光遮蔽 0_nm=法线 0_met=金属度
+	{baseColor "turret_Base_Color"}
+	{ao "$/pbr/0_ao"}
+	{combine "turret_Comb"}
+	;红通道=粗糙度 蓝通道=金属度 绿+Alpha=法线绿红通道
+	{mask "turret_Mask"}
+	;Alpha=遮罩强度 RGB=遮罩漫反射
+	
+
+
+	;可选参数
+	{diffuseColor 0xffffff}
+	{opacity 1};透明度
+	{bumpRate 1}
+	{aoRate 1};改进AO, 0=无AO 1=标准AO 2=全黑AO
+	{roughnessRate 1}
+	{metallicRate 1}
+	{bumpType 0};0=DirectX 1=OpenGL 
+	{roughnessFlip 0};0=不反相 1=反相
+	{maskRate 1};0=无遮罩 1=标准遮罩 2=完全使用遮罩作为基础色
+	{blend blend};none=不透明 blend=半透明 test=剔除 add=?
+}

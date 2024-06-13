@@ -1,0 +1,1 @@
+        The sample here is exactly the same as the one that comes with the mod.

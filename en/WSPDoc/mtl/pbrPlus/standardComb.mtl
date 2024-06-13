@@ -1,0 +1,23 @@
+{"pbrPlus/standardCombMask" 
+	;Textures Parameters
+	;warning:missing texture parameters can cause random crashes! 
+	;If you don't need the corresponding texture, fill in the placeholder
+	;in $/pbr has 3 placeholders 0_ao=Ambient Occlusion 0_nm=normal 0_met=metallic
+	{baseColor "turret_Base_Color"}
+	{ao "$/pbr/0_ao"}
+	{combine "turret_Comb"}
+	;red channel=roughness blue channel=metallic green+alpha=normal(bump) green+red channel
+	
+
+
+	;Optional Parameters
+	{diffuseColor 0xffffff}
+	{opacity 1};transparentRate
+	{bumpRate 1}
+	{aoRate 1};improved ao rate, 0=no AO 1=std AO 2=full black
+	{roughnessRate 1}
+	{metallicRate 1}
+	{bumpType 0};0=DirectX 1=OpenGL 
+	{roughnessFlip 0};0=normal 1=flip
+	{blend blend};none=no alpha blend=semi-transparent test=clip add=?
+}

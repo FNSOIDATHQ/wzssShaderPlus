@@ -1,0 +1,27 @@
+{"pbrPlus/standard" 
+	;Textures Parameters
+	;warning:missing texture parameters can cause random crashes! 
+	;If you don't need the corresponding texture, fill in the placeholder
+	;in $/pbr has 3 placeholders 0_ao=Ambient Occlusion 0_nm=normal 0_met=metallic
+	{diffuse "turret_Base_Color"}
+	{bump "turret_Normal_DirectX"}
+	{ao "turret_Mixed_AO"}
+	{roughness "turret_Roughness"}
+	{metallic "turret_Metallic"}
+	{emissive "$/pbr/0_ao"}
+	
+
+
+	;Optional Parameters
+    {diffuseColor 0xffffff}
+	{opacity 1};transparentRate
+	{bumpRate 1}
+	{aoRate 1};improved ao rate, 0=no AO 1=std AO 2=full black
+	{roughnessRate 1}
+	{metallicRate 1}
+    {emissiveRate 0}
+    {emissiveColor 0xff0000}
+    {emissiveType 0};0=Value 1=Tex
+
+	{blend none};none=no alpha blend=semi-transparent test=clip add=?
+}

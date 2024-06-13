@@ -1,0 +1,26 @@
+{"pbrPlus/standard" 
+	;贴图参数
+	;注意：缺失贴图参数可能会导致随机崩溃！
+	;如果你不需要对应的贴图，使用占位符替代
+	;在 $/pbr 有三个占位符 0_ao=环境光遮蔽 0_nm=法线 0_met=金属度
+	{diffuse "turret_Base_Color"}
+	{bump "turret_Normal_DirectX"}
+	{ao "turret_Mixed_AO"}
+	{roughness "turret_Roughness"}
+	{metallic "turret_Metallic"}
+	{emissive "$/pbr/0_ao"}
+	
+
+
+	;可选参数
+    {diffuseColor 0xffffff}
+	{opacity 1};透明度
+	{bumpRate 1}
+	{aoRate 1};改进AO, 0=无AO 1=标准AO 2=全黑AO
+	{roughnessRate 1}
+	{metallicRate 1}
+    {emissiveRate 0}
+    {emissiveColor 0xff0000}
+    {emissiveType 0};0=数值 1=贴图
+	{blend none};none=不透明 blend=半透明 test=剔除 add=?
+}
