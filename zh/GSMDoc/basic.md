@@ -8,7 +8,7 @@
 
 # GSM文件结构概述
 所有的GSM文件都存储在set\material\lib目录下，其中的子文件夹对代码本身没有特别的意义，可以按照喜好创建任意名字的文件夹。  
-Men of War II\modeling\resource\set\material\lib中存储了官方的GSM代码，可以作为代码参考。
+Men of War II\modeling\resource\set\material\lib中存储了官方的GSM代码，作为代码参考。
 
 标准的GSM文件如下所示
 
@@ -30,15 +30,16 @@ Men of War II\modeling\resource\set\material\lib中存储了官方的GSM代码�
   {l1 a b};链接语句
 }
 ```
- 我不会在这里从头教MOW II的脚本语法，详见[Basic knowledge about configuration files | GEM RTS v1 | Documentation (gitbook.io)](https://bestway-1.gitbook.io/documentation/foundational-knowledge/basic-knowledge-about-configuration-files)  
+我不会在这里从头教MOW II的脚本语法，详见[Basic knowledge about configuration files | GEM RTS v1 | Documentation (gitbook.io)](https://bestway-1.gitbook.io/documentation/foundational-knowledge/basic-knowledge-about-configuration-files)  
 所以让我们直接从GSM本身的结构开始：  
-在这里我们将一个大括号{}包括的内容称为一个**代码块**（我稍后解释为什么这么叫），那么
+  
+如果我们将一个大括号{}包括的内容称为一个**代码块**（我稍后解释为什么这么叫），那么
 >一个GSM文件总是由一个名称为"Material"的代码块组成，我们叫它主代码块；
 >
 >一个GSM文件一定在主代码块中包含一个名字同样为"Material"的子代码块，其为整个GSM的**输出块**。所有可能的输出均汇总到该代码块上；
 >
->一个GSM文件，在大部分情况下包含超过一个相互独立的子代码块，每个代码块一定具有>1个输出参数和>0个输入参数，在接下来，我们会称这些参数为**引脚**；
->>如果有超过一个子代码块，则他们之间使用**链接语句**将代码块的输出与下一个代码块的输入相连。
+>一个GSM文件，在大部分情况下包含超过一个相互独立的子代码块，每个代码块一定具有>=1个输出参数和>=0个输入参数，在接下来，我们会称这些参数为**引脚**；
+>>如果有超过一个子代码块，则他们之间使用**链接语句**将当前代码块的输出与下一个代码块的输入相连。
 
 # 代码块基本结构
 为什么要叫代码块？因为实际上GSM文件在运行时会被转换成HLSL代码，然后加入其余的着色器代码中被一同编译。一个代码块本质上代表了1行或多行HLSL语句。该过程的细节详见[附录1 GSM代码编译流程](./other.md#附录1-gsm代码编译流程)。
@@ -62,7 +63,7 @@ Men of War II\modeling\resource\set\material\lib中存储了官方的GSM代码�
     * 该部分不是必须的。
     * 其中comments是一个特殊的参数，它会被视作注释，与直接使用 ; 符号注释相似。我猜测这样注释可以在材质编辑器中显示
 
-除了[少数情况](./custom.md)代码块的输入输出并不直接显示。  
+此外，除了[少数情况](./custom.md)代码块的输入输出并不直接显示。  
 具体可用的代码块类型在[可用的代码块类型](./codeBlock.md)中展示。
 
 # 链接语句
@@ -76,33 +77,34 @@ l1=简单引脚链接
 {l1 a b}=将a块的第0个输出作为b块的第0个输入  
 l2=特定引脚链接  
 {l2 a x b y}=将a块的第x个输出作为b块的第y个输入  
-引脚计数从0开始  
+引脚的计数从0开始  
 
-你可能会在实际的官方代码里看到
+你也许会在实际的官方代码里看到
 ```
     {l1 a b m n o}
     {l2 a x b y m n o}
 ```
-这样的链接代码，很可惜我还不知道额外的参数m n o等有什么意义。  
+这样的链接代码，但是很可惜我还不知道额外的参数m n o等有什么意义。  
 一个很可能的猜测是这些参数被用于材质编辑器：定义某种固定可视化链接线条的锚点或者别的什么东西。  
-无论如何，就我观测到的情况而言，无视这些参数目前是无害的。
+不论如何，就我观测到的情况而言，无视这些参数目前是无害的。
 
 # 输入输出
-目前，你可以**假设**GSM的输入全部由代码块引入，所以我们会在GSM中实现一个从各种代码块输入参数，进行各种计算并最终汇总到输出块的函数。但是请注意，这个假设是**错误**的，我们会在[内置辅助函数及变量](./helper.md)和[自定义代码块](./custom.md)两个章节中提到不符合这个假设的内容。  
-但是在目前，这样思考并编写代码是没有问题的。
+目前，你可以**假设**GSM的输入全部由代码块引入，所以我们会在GSM中实现一个从代码块输入参数，进行各种计算并最终汇总到输出块的函数。但是请注意，这个假设是**错误**的，我们会在[内置辅助函数及变量](./helper.md)和[自定义代码块](./custom.md)两个章节中提到不符合这个假设的内容。  
+但是在目前，这样思考并编写代码没有问题。
 
-输入是多种多样的，我们会在[可用的代码块类型](./codeBlock.md)中阐述。在这里我们只关注GSM的输出，即输出块的相关知识。  
-通过在properties中定义lighting_model（即光照模型）字符串，GSM支持以下四种不同类型的输出：
+输入是多种多样的，我们会在[可用的代码块类型](./codeBlock.md)中阐述。而在这里我们只关注GSM的输出，即输出块的相关知识。  
+输出块通过在properties中定义lighting_model（即光照模型）字符串，使GSM支持以下四种不同类型的输出：
 * 无参数
 * phong
 * phong_gem2
 * metallic_roughness
 * marschner
+
 请注意，
     * 无参数一样是可以正常输出的，这五种光照模型类型定义了不同的输出引脚
-    * marschner很可能是一个未完成的用于各向异性头发着色器的光照模型，其的意思指向论文[《Light Scattering from Human Hair Fibers》](https://www.graphics.stanford.edu/papers/hair/hair-sg03final.pdf)，在这里我不做过多介绍
-    * phong和phong_gem2是基于经验公式的传统光照模型，gem2可能拥有一些更先进的功能，但是我没有深究这其中的区别，类似的，我也没有记录这些光照模型的引脚类型，这部分内容会在之后补充。
-    * metallic_roughness是基于金属度-粗糙度的PBR光照模型，我们简称为PBR或者PBR模型，这是我们接下来要关注的重点内容
+    * marschner很可能是一个未完成的用于各向异性头发着色器的光照模型，其的字面意思指向论文[《Light Scattering from Human Hair Fibers》](https://www.graphics.stanford.edu/papers/hair/hair-sg03final.pdf)，在这里我不做过多介绍
+    * phong和phong_gem2是基于经验公式的传统光照模型，gem2可能拥有一些更先进的功能，但是我没有深究这其中的区别。类似的，我也没有记录这些光照模型的引脚类型，这部分内容会在之后补充
+    * metallic_roughness是基于金属度-粗糙度的PBR光照模型，我们简称为PBR或者PBR模型，这是接下来要关注的重点内容
 
 参考该图  
 <img src=../../img/mted.png width=50% />  
@@ -116,8 +118,8 @@ PBR模型的引脚对照表如下
 | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
 | 0     | 1     | 2     | 5     | 6     | 8     | 9     | 20     | 21     | 22     |
 
-该表的意思是：设置链接语句{l2 a 0 输出块 2}，则会把a的第0个引脚输出到透明度（opacity）
-接下来我们介绍每个引脚的具体含义：
+该表的意思是：如果设置链接语句{l2 a 0 输出块 2}，则会把a的第0个引脚输出到透明度（opacity）
+接下来介绍每个引脚的具体含义：
 
 ### diffuse
 数据类型：float3  
@@ -125,7 +127,7 @@ PBR模型的引脚对照表如下
 其用于显示物体最基本的固有颜色。  
 ### emissive
 数据类型：float3  
-自发光引脚，大致可以理解成输出一个不受环境光照影响的漫反射贴图，因为MOW II的自发光贴图并不参与全局光照计算。  
+自发光引脚，大致可以理解成输出一个叠加到漫反射上的不受环境光照影响的漫反射贴图，因为MOW II的自发光贴图并不参与全局光照计算。  
 ### opacity
 数据类型：float  
 透明度引脚，需要注意的是它只负责输出透明度，透明的具体计算方式仍然由mtl中的{blend X}参数控制。
