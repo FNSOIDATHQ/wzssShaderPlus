@@ -3,6 +3,6 @@
 ## 目录
 *  ### [MTL基本结构](./basic.md)
 *  ### [分着色器功能概述](./shaderFunc.md)
-*  ### [MTL样例](./mtl/mtlSample.md)
+*  ### [MTL样例](./mtl/README.md)
 *  ### [其它](./other.md)
 *  ### [返回](../../README.md)

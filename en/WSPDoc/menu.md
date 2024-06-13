@@ -3,6 +3,6 @@
 ## Table of Contents
 *  ### [MTL basic structure](./basic.md)
 *  ### [Functional overview of each shader](./shaderFunc.md)
-*  ### [MTL Sample](./mtl/mtlSample.md)
+*  ### [MTL Sample](./mtl/README.md)
 *  ### [Other](./other.md)
 *  ### [Return](../../READMEeng.md)
