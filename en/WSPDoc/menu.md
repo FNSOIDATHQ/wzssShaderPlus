@@ -4,5 +4,5 @@
 *  ### [MTL basic structure](./basic.md)
 *  ### [Functional overview of each shader](./shaderFunc.md)
 *  ### [MTL Sample](./mtl/)
-*  ### [Other](./other.md)
+*  ### [Appendix](./other.md)
 *  ### [Return](../../READMEeng.md)

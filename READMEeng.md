@@ -1,5 +1,5 @@
-# wzssShaderPlus
-Language：English [中文](README.md) 
+# WZSS Shader Plus Documentation
+Language：English [中文](./README.md) 
   
         This repository is used to archive the technical documentation(as I understand) for the MOW II based custom shader system (GSM).
         and the development guide for the WZSS Shader Plus (WSP) mod to guide any author wishing to use this mod to enhance the graphics properly.
@@ -8,9 +8,9 @@ Language：English [中文](README.md)
 I used deepl + simple proofreading to translate this document to English, if there are any errors please send me an issue.
   
 ## Catalog
-* ### [GSM Technical Documentation](/en/GSMDoc/menu.md)
-* ### [WSP Development Guide](en/WSPDoc/menu.md)
-* ### [Computer Graphics Materials](/en/CGDoc/menu.md)
+* ### [GSM Technical Documentation](./en/GSMDoc/menu.md)
+* ### [WSP Development Guide](./en/WSPDoc/menu.md)
+* ### [Computer Graphics Materials](./en/CGDoc/menu.md)
 ---
   
 * ### [Copyright Statement](#Copyright-Statement)
@@ -26,4 +26,4 @@ First of all, if you like my products, please give this repository a STAR, I'd a
 Secondly, you can support my work with **money** in the following ways, but any direct benefits you can get is **LIMITED** to the fact that you'll be given more weight for making suggestions to WSP. Or I will prioritize your suggestions. **However** on top of that, the difficulty of implementing a new suggestion, other people's opinions and my personal schedule, and other necessary issues **still** will be taken into account to determine if it should actually be prioritized.
 At the same time, all development results remain completely free and open source. I think this is important: there will be no backer specials, no prioritized benefits, and the results should be shared by all.
   
-If you're interested in my approach, feel free to read further [some of my ideas](en/additional/openSource.md)。
+If you're interested in my approach, feel free to read further [some of my ideas](./en/additional/openSource.md)。
