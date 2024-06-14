@@ -4,7 +4,7 @@
 * ### [Material Editor](./materialed.md)
 * ### [Basic Syntax and Concepts](./basic.md)
 * ### [Available Code Block Types](./codeBlock.md)
-* ### [Built-in helper functions and variables](./helper.md)
 * ### [Custom Code Block](./custom.md)
+* ### [Built-in helper functions and variables](./helper.md)
 * ### [Appendix](./other.md)
 * ### [Return](../../READMEeng.md)
