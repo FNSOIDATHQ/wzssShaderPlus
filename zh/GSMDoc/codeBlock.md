@@ -28,6 +28,7 @@
 * 输入输出参数
 * 功能概述
 * 注意事项
+* HLSL代码实现
 
 的顺序介绍每个函数。
 在输入输出参数中，我们记
@@ -122,7 +123,7 @@
 ---
 我们按照字典序介绍它们：
 
-### Math/Abs  
+## Math/Abs  
 ```
 	{"Math/Abs"
 		{uid 1}
@@ -137,26 +138,26 @@
 
 >计算输入参数的绝对值。
 
-### Math/Add  
-### Math/Ceil  
-### Math/Clamp  
-### Math/Cosine  
-### Math/Cross  
-### Math/Div  
-### Math/Dot  
-### Math/Exp
-### Math/Floor  
-### Math/Fraction  
-### Math/Lerp  
-### Math/Max  
-### Math/Min  
-### Math/Mul  
-### Math/OneMinus  
-### Math/Power  
-### Math/Round  
-### Math/Saturate  
-### Math/Smoothstep  
-### Math/Sub  
+## Math/Add  
+## Math/Ceil  
+## Math/Clamp  
+## Math/Cosine  
+## Math/Cross  
+## Math/Div  
+## Math/Dot  
+## Math/Exp
+## Math/Floor  
+## Math/Fraction  
+## Math/Lerp  
+## Math/Max  
+## Math/Min  
+## Math/Mul  
+## Math/OneMinus  
+## Math/Power  
+## Math/Round  
+## Math/Saturate  
+## Math/Smoothstep  
+## Math/Sub  
 
 # 输入参数
 输入参数大致被分为四部分：Parameter/，Camera/，Vertex/和其它。
@@ -164,7 +165,7 @@
 
 ---
 第一部分是标准参数，以Parameter/开头，基本上来说他们都是float的变形：  
-### Parameter/Color  
+## Parameter/Color  
 ```
 	{"Parameter/Color"
 		{uid 1}
@@ -190,7 +191,7 @@
 * external内只有{on}没有{off}
 * 该参数很可能不支持输出透明度，尽管在所有GSM里都使用八位十六进制表示。如果实际上支持，则第二个输出引脚为透明度
 * 在mtl中，请使用六位十六进制表示值，八位会只读取后六位导致行为不一致
-### Parameter/Float  
+## Parameter/Float  
 ```
 	{"Parameter/Float"
 		{uid 1}
@@ -212,7 +213,7 @@
 
 注意：  
 * external内只有{on}没有{off}
-### Parameter/Float2  
+## Parameter/Float2  
 ```
 	{"Parameter/Float2"
 		{uid 1}
@@ -235,7 +236,7 @@
 
 注意：  
 * external内只有{on}没有{off}
-### Parameter/Float3  
+## Parameter/Float3  
 ```
 	{"Parameter/Float3"
 		{uid 1}
@@ -259,7 +260,7 @@
 
 注意：  
 * external内只有{on}没有{off}
-### Parameter/Luminosity  
+## Parameter/Luminosity  
 ```
 	{"Parameter/Luminosity"
 		{uid 1}
@@ -282,7 +283,7 @@
 注意：  
 * external内只有{on}没有{off}
 * 一般该参数出现在输出到自发光引脚的流程中，但是实际测试时我没有看到任何差异
-### Parameter/Texture
+## Parameter/Texture
 ```
 	{"Parameter/Texture"
 		{uid 1}
@@ -295,7 +296,54 @@
 			    {content signed}
                 {tile 0}
 			    {srgb 0}
+                ;{normal_type}
+                {filter}
 		    }
+		}
+	}
+```
+常见使用样例：
+```
+	{"Parameter/Texture"
+		{uid 4}
+		{position 22 259}
+		{properties
+			{name diffuse}
+			{srgb 0}
+		}
+	}
+```
+```
+	{"Parameter/Texture"
+		{uid 11}
+		{position 330 580}
+		{properties
+			{name bump}
+			{content normals}
+		}
+	}
+```
+```
+	{"Parameter/Texture"
+		{uid 11}
+		{position -260 531}
+		{properties
+			{name bumpvolume_noise}
+			{type VOLUME}
+			{content signed}
+			{srgb 0}
+		}
+	}
+```
+```
+	{"Parameter/Texture"
+		{uid 103}
+		{position -133 741}
+		{properties
+			{name depth_tex}
+			{file "@scene_depth"}
+			{tile 0}
+			{srgb 0}
 		}
 	}
 ```
@@ -328,14 +376,18 @@
 >>default 默认参数，即正常贴图  
 >>normals 法线贴图，似乎可以指定读取方式，待补充
 >>signed 待补充，一般与{type VOLUME}连用  
+>
+>{filter}用处未知，仅在progress.gsm&progress_mask.gsm中出现
+>
+>{normal_type}可能已经弃用
 
 注意：  
-* 该参数默认显示在前端，不需要手动开启
-* 输入不是必须的，只有使用{file @x}时需要输入，如果没有则使用前端输入的贴图
+* 该参数默认显示在前端，不需要手动开启，使用{file @x}时前端显示自动关闭
+* 第0个输入一般为纹理坐标或者预乘了纹理坐标的数据，即Vertex/Texcoord
 * 不同的参数组合不一定可以一起用，但是目前我没有深入研究
 ---
 第二部分是变换参数，其中相机变换以Camera/开头：  
-### Camera/Direction  
+## Camera/Direction  
 ```
 	{"Camera/Direction"
 		{uid 1}
@@ -345,36 +397,176 @@
 输出：
 * float3
 
->输出相机的世界空间方向向量
-### Camera/DirectionTangentSpace  
+>输出相机的世界空间方向向量。
 
-### Camera/Distance  
-### Camera/Origin  
+HLSL代码实现：  
+>Camera direction = normalize(camera_origin - _in_pos_world);
+## Camera/DirectionTangentSpace  
+```
+	{"Camera/DirectionTangentSpace"
+		{uid 1}
+		{position 123 456}
+	}
+```
+输出：
+* float3
 
-### ProjectedPosition  
-### WorldPosition  
+>输出相机的切线空间方向向量。
+
+HLSL代码实现：  
+>Camera direction TS = normalize(_in_view_tangent);
+## Camera/Distance  
+```
+	{"Camera/Distance"
+		{uid 1}
+		{position 123 456}
+	}
+```
+输出：
+* float
+
+>输出物体与相机在世界空间的距离。  
+
+HLSL代码实现：  
+>Camera distance = distance(camera_origin, _in_pos_world);
+## Camera/Origin  
+```
+	{"Camera/Origin"
+		{uid 1}
+		{position 123 456}
+	}
+```
+输出：
+* float3
+
+>输出相机的世界空间位置。
+
+HLSL代码实现：  
+>Camera origin = camera_origin;
+## ProjectedPosition  
+```
+	{"ProjectedPosition"
+		{uid 1}
+		{position 123 456}
+	}
+```
+输出：
+* float3
+
+>输出物体的投影空间位置。
+
+HLSL代码实现：  
+>Projected position = _in_pos_proj;
+## WorldPosition  
+```
+	{"WorldPosition"
+		{uid 1}
+		{position 123 456}
+	}
+```
+输出：
+* float3
+
+>输出物体的世界空间位置。
+
+HLSL代码实现：  
+>World position = _in_pos_world;
 ---
 第三部分是顶点参数，大部分以Vertex/开头：  
-### Vertex/Color  
-### Vertex/Texcoord  
-### Texcoord3D  
+## Vertex/Color  
+```
+	{"Vertex/Color"
+		{uid 1}
+		{position 123 456}
+	}
+```
+输出：
+* float3
+* float
+
+>包含Alpha通道的顶点颜色。
+
+## Vertex/Texcoord  
+```
+	{"Vertex/Texcoord"
+		{uid 1}
+		{position 123 456}
+		{properties
+			{set 0}
+		}
+	}
+```
+输出：
+* float2
+
+>2D纹理坐标，即UV。  
+>一般作为贴图的输入。  
+>{set x}指定了获取哪个通道的UV作为输入，一般为0。
+
+## Texcoord3D  
+```
+	{"Texcoord3D"
+		{uid 1}
+		{position 123 456}
+	}
+```
+输出：
+* float3
+
+>3D纹理坐标，实际上不是真的3D纹理，而是立方体贴图的纹理坐标。  
+>一般作为天空盒贴图的输入。  
 ---
 第四部分是场景参数，它们提供了来自环境或者系统或者屏幕的信息：  
-### Depth
-### Time  
-### SceneTime  
-### SceneEnvironmentColor  
-### WindAmplitude  
+## Depth
+## Time  
+## SceneTime  
+## SceneEnvironmentColor  
+## WindAmplitude  
 ---
 第五部分是特殊参数：  
-### Scheme
+## Scheme
+```
+	{"Scheme"
+		{uid 1}
+		{position 123 456}
+		{properties
+			{id 1}
+		}
+	}
+```
+输出：
+* 视该Scheme的Material类型而定
 
+
+>将一个GSM文件作为输入。  
+>GSM很可能是“GEM Scheme Material”的简称，所以Scheme可以简单代指一个GSM文件。  
+>{id x}参数是必要的，这和shader_combinations.set中的代码结构有关：  
+>>大致上来说，在该文件中会以"该着色器：第1个着色器输入：第2个着色器输入"的格式编译这种嵌套着色器（实际输入顺序可能是反的，我没有具体研究）  
+>>所以请按从1编号的顺序填写id
+>
+>输出引脚与指定Material的输出引脚严格对照。
 # 流程控制
 GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)中提到其它进行流程控制的办法。  
 值得注意的是：显卡并不擅长进行流程控制，巧妙地把流程控制转变成数学计算或者在编译阶段剔除它们更加合适。  
 在GSM中，如果想要做两个互补的功能，最好把它们分散到两个着色器里。然而如果少量的流程控制能带来便利，这仍然是可以接受的代价。 
 
-### If
+## If
+```
+	{"If"
+		{uid 1}
+		{position 123 456}
+	}
+```
+输入：
+* float?
+* float?
+* float?
+* float?
+
+输出：
+* float?
+
+>我不知道这个函数是怎么运作的，虽然它看起来很像流程控制，但是我还没猜出来具体要怎么用
 
 # 工具集
 这些函数执行从输入到输出的一组特定改变，往往具体实现由多行代码组成。  
@@ -383,36 +575,46 @@ GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)
 
 ---
 以下是包含了特殊功能的代码块  
-### DiffuseToAO  
-### Extract  
-### Fresnel  
-### Pan
-### Parallax
-### ReflectCube  
-### Rotate2D  
-### SpecularToMetallicRoughness
+## DiffuseToAO  
+## Extract  
+## Fresnel  
+## Pan
+## Parallax
+## ReflectCube  
+## Rotate2D  
+## SpecularToMetallicRoughness
 
 ---
 以下是简化编写的代码块  
-### Combine  
-### Desaturate  
-### FromTangent  
-### GammaToLinear  
-### Normalize  
-### Reflect
-### WorldToProjected  
+## Combine  
+## Desaturate  
+## FromTangent  
+## GammaToLinear  
+## Normalize  
+## Reflect
+## WorldToProjected  
 ---
 这是一个额外的代码块，我在硬编码里看到了它，但是我不知道要怎么用，也不确定它是否真的有用
-### SampleAtlas
+## SampleAtlas
 # 注释
 你可以放置一个只包含注释的代码块，被称为Comments，我相信这在材质编辑器中会很有用。
 
-### Comments
+## Comments
+```
+	{"Comments"
+		{uid 1}
+		{position 123 456}
+		{properties
+			{comments "temp"}
+			{size 100 100}
+		}
+	}
+```
 
-
+>猜测size参数决定2d视图中该块的大小
 # 自定义代码块
 这两个代码块用于添加自定义代码，我们在[自定义代码块](./custom.md)详细阐述这两个代码块的使用。
-### CustomCode  
-自定义代码
-### CustomVertexCode  
-自定义顶点着色器代码
+## CustomCode  
+>自定义代码
+## CustomVertexCode  
+>自定义顶点着色器代码
