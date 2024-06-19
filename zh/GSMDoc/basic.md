@@ -3,6 +3,7 @@
 *  [代码块基本结构](#代码块基本结构)
 *  [链接语句](#链接语句)
 *  [输入输出](#输入输出)
+*  [MTL文件结构](#MTL文件结构)
 *  [其它基础知识](#其它基础知识)
 *  [返回](./menu.md)
 
@@ -63,6 +64,7 @@ Men of War II\modeling\resource\set\material\lib中存储了官方的GSM代码�
 * properties 该代码块的参数，每个参数以{m n}的形式表示，m是参数名，n是参数。
     * 该部分不是必须的。
     * 其中comments是一个特殊的参数，它会被视作注释，与直接使用 ; 符号注释相似。我猜测这样注释可以在材质编辑器中显示
+    * 可能可以透过properties直接定义输入参数的值，见[Pan块的实例](./codeBlock.md#pan)
 
 此外，除了[少数情况](./custom.md)代码块的输入输出并不直接显示。  
 具体可用的代码块类型在[可用的代码块类型](./codeBlock.md)中展示。
@@ -161,6 +163,28 @@ PBR模型的引脚对照表如下
 其代表PBR中的f0值，f0的意义可以参考[材质制作参数F0](https://liangz0707.github.io/whoimi/blogs/Art/%E6%9D%90%E8%B4%A8%E5%88%B6%E4%BD%9C%E5%8F%82%E6%95%B0F0.html)，其与物体的折射率有关。  
 如果你不知道这是什么，不要连接该引脚，着色器会调用一个默认值。
 
+# MTL文件结构
+```
+{"npr/simple" 
+	;贴图参数
+	;如果你不需要对应的贴图，使用占位符替代
+	;在 $/pbr 有三个占位符 0_ao=环境光遮蔽 0_nm=法线 0_met=金属度
+	{diffuse "turret_Base_Color"}
+	
+
+
+	;可选参数
+    {diffuseColor 0xffffff}
+	{opacity 1}
+	{blend none};none=不透明 blend=半透明 test=剔除 add=?
+}
+```
+与旧GEM引擎的MTL相比变化不大，主要参数类型为：
+* {xxx "tex"} 贴图参数[[必须注意的bug]](#已知问题)
+* {xxx 0xffffff} 16进制颜色参数
+* {xxx 1} 浮点参数
+* {blend none} 透明计算方法
+* 待补充
 # 其它基础知识
 
 ### GSM实际操控的着色器类型
