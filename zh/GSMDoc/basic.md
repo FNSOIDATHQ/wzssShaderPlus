@@ -144,7 +144,7 @@ PBR模型的引脚对照表如下
 ### translucence
 数据类型：float3  
 透光度引脚  
-我对该引脚的理解不深入，大致效果可以参考[半透明明暗器](https://help.autodesk.com/view/3DSMAX/2022/CHS/?guid=GUID-67CD32E8-A0D5-4A14-8179-FB11D3E3DD28)  
+我对该引脚的理解不深入，大致效果可以参考[半透明明暗器](https://help.autodesk.com/view/3DSMAX/2022/CHS/?guid=GUID-67CD32E8-A0D5-4A14-8179-FB11D3E3DD28)。  
 请注意，它很可能与次表面散射无关。  
 一般情况下也不需要连接该引脚。  
 ### roughness

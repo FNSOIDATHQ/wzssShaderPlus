@@ -3,8 +3,8 @@
 ## Catalog
 * ### [Material Editor](./materialed.md)
 * ### [Basic Syntax and Concepts](./basic.md)
-* ### [Available Code Block Types](./codeBlock.md)
-* ### [Custom Code Block](./custom.md)
+* ### [Available CodeBlock Types](./codeBlock.md)
+* ### [Custom CodeBlock](./custom.md)
 * ### [Built-in helper functions and variables](./helper.md)
 * ### [Appendix](./other.md)
 * ### [Return](../../READMEeng.md)
