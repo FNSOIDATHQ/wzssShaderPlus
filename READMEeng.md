@@ -25,7 +25,8 @@ First of all, if you like my products, please give this repository a STAR, I'd a
   
 Secondly, you can support my work with **money** in the following ways, but any direct benefits you can get is **LIMITED** to the fact that you'll be given more weight for making suggestions to WSP. Or I will prioritize your suggestions. **However** on top of that, the difficulty of implementing a new suggestion, other people's opinions and my personal schedule, and other necessary issues **still** will be taken into account to determine if it should actually be prioritized.  
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N2ZJR4A)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N2ZJR4A)  
+[![mbd.pub](./img/mbd.png)](https://mbd.pub/o/fedStudio)  
 
 At the same time, all development results remain completely free and open source. I think this is important: there will be no backer specials, no prioritized benefits, and the results should be shared by all.  
 If you're interested in my approach, feel free to read further [some of my ideas](./en/additional/openSource.md).  
