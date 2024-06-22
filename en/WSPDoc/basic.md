@@ -1,29 +1,30 @@
 
-        不知道为什么在github没法跨网页做标题导航，我暂时只能在这里把mtl结构再写一遍。
-## 目录
-*  [MTL文件结构](#mtl文件结构)
-*  [返回](./menu.md)
+        I don't know why I can't do header navigation across pages at github, so I'll just have to rewrite the mtl structure here for now.
+## Catalog
+* [MTL File Structure](#mtl-file-structure)
+* [Return](./menu.md)
 
-# MTL文件结构
+# MTL File Structure
 ```
-{"npr/simple" 
-	;贴图参数
-	;如果你不需要对应的贴图，使用占位符替代
-	;在 $/pbr 有三个占位符 0_ao=环境光遮蔽 0_nm=法线 0_met=金属度
+{ "npr/simple"
+	;texture parameters
+	;If you don't need the corresponding mapping, use placeholders instead
+	;There are three placeholders in $/pbr 0_ao=ambient light masking 0_nm=normal 0_met=metallicity
 	{diffuse "turret_Base_Color"}
 	
 
 
-	;可选参数
+	;Optional parameters
     {diffuseColor 0xffffff}
 	{opacity 1}
-	{blend none};none=不透明 blend=半透明 test=剔除 add=?
+	{blend none};none=Opaque blend=Semi-transparent test=Cull out add=?
 }
 ```
-与旧GEM引擎的MTL相比变化不大，主要参数类型为：
-* {xxx "tex"} 贴图参数
-* * 采用写入MTL模式控制着色器时，会导致不一致行为：必须预定义全部贴图参数，否则调用着色器时引擎会反馈一个意义不明的故障
-* {xxx 0xffffff} 16进制颜色参数
-* {xxx 1} 浮点参数
-* {blend none} 透明计算方法
-* 待补充
+Not much has changed from the MTL of the old GEM engine,  
+the main parameter types are:
+* {xxx "tex"} texture parameter
+* * Using write MTL mode to control shaders leads to inconsistent behavior: all texture parameters must be predefined, otherwise the engine will call the shader with an unspecified fault.
+* {xxx 0xffffff} hexadecimal color parameter
+* {xxx 1} floating point parameter
+* {blend none} Transparency calculation method
+* To be added

@@ -1,86 +1,89 @@
-## 目录
-*  [概述](#概述)  
-*  [辅助函数](#辅助函数)
-*  [辅助变量](#辅助变量)
-*  [返回](./menu.md)
+## Catalog
+* [Overview](#overview)  
+* [Auxiliary Functions](#auxiliary-functions)
+* [Auxiliary Variables](#auxiliary-variables)
+* [Return](./menu.md)
 
-# 概述
-本章节主要介绍可以在**自定义代码块**中直接使用的辅助函数及变量。 
-它们要不然是DirectX内置，要不然是全局变量，你可以再任何地方直接调用它们。 
-一定程度上我鼓励开发者使用这些工具而不是代码块：因为对于直接编写GSM文件来说代码块的可读性是非常堪忧的。
+# Overview
+This section focuses on helper functions and variables that can be used directly in **Custom CodeBlocks**. 
+These are either built-in DirectX or globally defined variables and functions that you can call from anywhere.  
+To a certain extent I encourage developers to use these tools instead of CodeBlocks: the readability of CodeBlocks is a real concern when writing GSM files directly.
 
-# 辅助函数
-## 全部DirectX内置函数
+# Auxiliary Functions
+## All DirectX built-in functions
 
-参考链接：
+Reference links:
 
-[内部函数](https://learn.microsoft.com/zh-cn/windows/win32/direct3dhlsl/dx-graphics-hlsl-intrinsic-functions)
+[Internal Functions](https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-intrinsic-functions)
 
-[CG函数文档](https://developer.download.nvidia.com/cg/index_stdlib.html)
+[CG function documentation](https://developer.download.nvidia.com/cg/index_stdlib.html)
 
 ## pow_safe
-GSM修改过的pow函数，改动未知。
+GSM modified pow function, changes unknown.
 
 ## ParallaxOcclusionMapping
-计算视差贴图用，用法待补充。
+Calculate parallax mapping, usage to be added.
 ## Depth
-计算屏幕深度用，用法待补充。
+Calculate the screen space depth, usage to be added.
 ## RotateVector2D
-旋转纹理坐标用，用法待补充。
+Rotate texture coordinates, usage to be added.
 ## ReflectCube
-计算全局反射，用法待补充。
+Compute global reflection, usage to be added.
 
 ---
-# 辅助变量
+# Auxiliary Variables
 ## _in_color
-顶点颜色。
+Vertex color.
 ## _in_tc_3d
-3d纹理坐标。
+3d texture coordinates.
 ## _in_normal_world
-世界空间法线。
-注意：  
-* 不包含法线贴图，只有模型本身的法线信息。
+World space normal.  
+Notes:  
+* Does not contain normal maps, only normal information from the model itself.
 
 ## _in_tangent_world
-世界空间切线。
+World space tangent.
 
 ## _in_binormal_world
-世界空间双切向量。
+World space bi-tangent vector.
 ## _in_position
-投影空间坐标位置（不确定）。
+position in projected space (unsure).
 
 ## _in_pos_proj
-投影空间坐标位置。
+position in projection space.
 
 ## _in_pos_world
-世界空间坐标位置。
+World space position.
 
 ## _in_view_tangent
-切线空间方向向量。
+Tangent space direction vector.
 
 ## camera_origin
-世界空间相机位置。
+World camera position.
 
 ## scene_time
-场景时间。
+Scene time.
+
 ## scene_environment_color
-场景环境颜色。
+The color of the scene environment.
+
 ## wind_amplitude
-风频率。
+Wind frequency.
+
 ## DEPTH_DIVIDER
 ```
-scene_depth = a.r * DEPTH_DIVIDER;
+scene_depth = a.r * DEPTH_DIVIDER.
 ```
-计算屏幕空间深度用。
+helper variable to calculate the screen space depth.
 
 ## camera_viewproj
 ```
 float4 proj = mul(float4(world_pos, 1), camera_viewproj);
 ```
-计算世界空间转投影空间用。
+Calculate world space to projection space.
 
 ## gamma_value
 ```
 out0=pow(a, gamma_value);
 ```
-伽马值。
+Gamma value.

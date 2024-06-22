@@ -3,11 +3,11 @@
 *  [Return](./menu.md)
 
 # Appendix 1 GSM Code Compilation Process
-关于这部分内容我知之甚少，因为我没有引擎源代码，也没有shader文件夹里其余的着色器代码。  
-但是根据查询可执行文件的硬编码文本和对GSM文件的观察，编译流程应当如下：  
-* 1.根据GSM文件的md5值比对，确定当前要使用的着色器是否研究被编译，如果没有则继续进行第二步，如果有则跳转到第六步
-* 2.GSM文件被转换为HLSL代码，猜测文件名为scheme.h(在报错时出现的名字)
-* 3.根据代码内容，必要的输入输出和#define被自动识别并打包为shader_combinations.set
-* 4.转换后的HLSL与shader文件夹中的代码被合并并编译为着色器缓存
-* 5.着色器缓存被存储到%LOCALAPPDATA%\Men of War II\shader_cache\文件夹
-* 6.游戏读取缓存并执行着色器
+I know very little about this part, as I don't have the source code or the rest of the shader code in the shader folder.  
+But based on querying the hardcoded text of the executable file and reading the GSM file, the compilation flow should be as follows:  
+* 1. Based on the md5 value comparison of the GSM files, determine whether the current shader to be used has been compiled, if not then continue to step 2, if yes then jump to step 6
+* 2. Based on the code content, the necessary inputs, outputs and #defines are automatically recognized and packaged as shader_combinations.set
+* 3. Converting GSM file to HLSL code, guess the file name is scheme.h (the name that appears in the error report)
+* 4. The converted HLSL is merged with the code in the shader folder and compiled into the shader cache
+* 5. Storing shader cache in the %LOCALAPPDATA%\Men of War II\shader_cache\ folder.
+* 6. Game reads target cache and executes the shader.

@@ -1,11 +1,12 @@
-## 目录
-*  [概述](#概述)
-*  [返回](./menu.md)
+## Catalog
+*  [Overview](#overview)
+*  [Return](./menu.md)
 
-# 概述
-这是一个还不可用的工具，其名称为material.ed.exe
-我对它的了解十分有限，这里有唯一一张其在正常运行时的截图
+# Overview
+This is a not-yet-available tool named material.ed.exe.
+My knowledge of it is very limited, and here is the only screenshot of it in normal operation:  
 ![alt text](../../img/mted.png)
 
-总之，它大致与unity或者ue的可视化着色器编辑器相似。
-因为它目前不可用，本章节不会进一步介绍任何内容。
+In short, it is roughly similar to unity or unreal engine's visual shader editor.  
+
+Because it is currently unavailable, nothing further will be covered in this section.

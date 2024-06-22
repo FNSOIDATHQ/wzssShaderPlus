@@ -1,14 +1,14 @@
-## 目录
-*  [概述](#概述)  
-*  [自定义代码](#自定义代码)
-*  [自定义顶点着色器代码](#自定义顶点着色器代码)
-*  [返回](./menu.md)
+## Catalog
+* [Overview](#overview)  
+* [Custom Code](#custom-code)
+* [Custom Vertex Shader Code](#custom-vertex-shader-code)
+* [Return](./menu.md)
 
-# 概述
-在本章节我们会进入一些高级话题：如何在GSM插入HLSL代码。  
-不错，CustomCode和CustomVertexCode的本质是在GSM里插入一个用HLSL编写的着色器函数。
-# 自定义代码
-自定义代码，即CustomCode，我们在该代码块中编写最基本的函数:其与常见编程语言中的函数没有什么不同，接受输入，并且给出输出。其基本结构如下：
+# Overview
+In this section we'll get into some advanced topics: how to insert HLSL code in GSM.  
+Yes, the essence of CustomCode and CustomVertexCode is to insert a shader function written in HLSL into the GSM.
+# Custom Code
+Custom Code,or CustomCode, is the CodeBlock in which we write the most basic function: it is no different from a function in a common programming language. we need to accepts inputs, and gives outputs. The basic structure is as follows:
 ```
 	{"CustomCode"
 		{uid 1}
@@ -21,30 +21,32 @@
 		}
 	}
 ```
-* {inputs x} 规定了该代码块可以有多少个输入，已知可接受的输入数量是1-4个，更多的输入可行性未知。
-> 输入的参数名总按字典序排列，即参数1=a，参数2=b，以此类推  
-> 我不知道是否可以写{inputs 0}或者不写该参数以使代码块不接受输入
-* {out_type x} 规定了该代码块的输出类型，尽管实际的HLSL支持以关键字的形式输出多个参数，在GSM自定义代码的输出是唯一的。
-> 输出参数名总为out0  
-> 已知输出参数的类型可以为float float2 float3
-* {code "x"} x即HLSL代码，也是自定义代码的主要部分。
-> 你可以在这里直接使用任意的DirectX内建函数，也支持插入你能想到的任何类型的代码：
-> > #define?#include? 没问题！代码块照单全收  
+* **{inputs x}** | specifies how many inputs the block can have, the number of acceptable inputs is known to be 1-4, the feasibility of more is unknown.
+> The parameter names of inputs are always in dictionary order, i.e. parameter 0 = a, parameter 1 = b, and so on  
+> I don't know if it's possible to write {inputs 0} or leave the parameter out to make the CodeBlock not accept inputs
+* **{out_type x}** | specifies the type of output for the block, although actual HLSL supports outputting multiple parameters in the form of keywords, in GSM custom code the output is unique.
+> The output parameter name is always out0  
+> The type of the known output parameter can be float float2 float3
+* **{code "x"}** | x i.e. the HLSL code and the main part of the custom code.
+> You can use any DirectX built-in function directly here, and insertion of any type of code you can think of is also supported:
+> > #define?#include? No problem! CodeBlocks as they are  
 >
-> 但是必须注意到自定义代码的实现是一个函数，这意味着你定义的一切都只在这个函数的作用域里起效
+> But it's important to note that the implementation of the custom code is a function, which means that everything you define works only in the scope of the function  
 
-该代码块**不支持**换行！我没有在开玩笑，你可以显式地键入\r\n建立一个回车，但是不能创建一个真正的回车，前者会被材质编辑器读取以在可视化时将其转换为回车，但是在目前的文本操作下，似乎是不可能的（也许有一些办法转换，但是我还不知道）。
+The CodeBlock **doesn't support** line breaks! I'm not kidding, you can explicitly type \r\n to create a carriage return, but not a real one, the former will be read by the material editor to convert it to a carriage return when visualized, but with the current text manipulation, it seems to be impossible (there may be some way to convert it, but I don't know it yet).
 
-附录：
-* 我鼓励开发者尽可能在CustomCode里写注释，无论是comments还是;还是代码内注释（尽管这可能可读性有限）的形式
-* 想使用#include来愉快的写HLSL代码吗？在include的代码里可以愉快的使用换行。没有问题，编译时指定的代码根目录在shader\material。
-> 如果你看过旧GEM引擎游戏的着色器，不难猜到这个地址 ;)
-* 在自定义代码里可以方便地创建流程控制，推荐的方法有传统的if-else和三元运算符。例子如下
-> out0=c;if(a>0.5f){out0=b;}  
-> out0=(a>0.5f)?b:c;
-> > 尽可能避免创建一个完整的if-else，但是也不必太担心，现代GPU没有那么脆弱。
-# 自定义顶点着色器代码
-自定义顶点着色器代码，即CustomVertexCode,这是自定义代码的一个特殊变体。如其名，它用于控制顶点着色器，在形式上与自定义代码有较大的区别。其基本结构如下：
+Other useful information:
+* I encourage developers to write comments in CustomCode whenever possible, whether in the form of comments or ; or in-code comments (although this may have limited readability)
+* Want to have fun writing HLSL code using #include? You can happily use line breaks in included code. No problem, the root directory of the code specified at compile time is in shader\material.
+> If you've seen shaders for old GEM engine games, it's not hard to guess the directory ;)
+* Flow controls can be easily created in custom code, the recommended methods are the traditional if-else and ternary operators. Examples are as follows
+```
+out0=c;if(a>0.5f){out0=b;}  
+out0=(a>0.5f)?b:c;
+```
+> Avoid creating a full if-else if possible, but don't worry too much, modern GPUs aren't that fragile
+# Custom Vertex Shader Code
+Custom vertex shader code, or CustomVertexCode, is a special variant of custom code. As the name suggests, it is used to control vertex shaders and is formally quite different from custom code. Its basic structure is as follows:
 ```
 	{"CustomVertexCode"
 		{uid 1}
@@ -55,23 +57,23 @@
 		}
 	}
 ```
-首先，它**很可能**不能定义输入，这不一定，但是很可能是这样。 
+First of all, it **probably** can't define inputs, that's not necessarily true, but it probably is.  
 
-{type "x"} 定义了该函数所在的位置：
-* After Transform 在默认的顶点着色器执行完毕后
-* Before Transform 在默认的顶点着色器执行代码前
+{type "x"} defines where the function is located:  
+* **After Transform** | after the default vertex shader is executed.
+* **Before Transform** | before the default vertex shader is executed.
 
-然后，自定义顶点着色器代码几乎总是直接连接变换（transform）引脚，与常规的代码块完全不同，我们也无法描述它的输出。  
-根据我的猜测，该代码块就是简单地将代码插入顶点着色器的主函数内。
+The custom vertex shader code then almost always connects directly to the transform pins, which is completely different from the regular block of code, so we can't easily describe its output.  
+According to my guess, this CodeBlock is simply inserting the code inside the main function of the vertex shader.
 
-所以，我认为我们在本部分内容中会直接操纵主函数中的变量，已知的变量名，数据类型和可能的意义如下：  
+So, I think we will directly manipulate the variables in the main function in this section, the known variable names, data types and possible meanings are as follows:  
 | _out_pos | _out_tc_3d | _out_haze |
 | -------- | -------- | -------- |
-| float4     | float3     | float     |
-| 世界空间顶点位置     | 3D纹理坐标     | 战场迷雾     |
+| float4 | float3 | float |
+| World Space Vertex Position | 3D Texture Coordinates | Battlefield Haze |
 
-不难猜测出还有：
-* _out_pos_proj float4 投影空间顶点位置
-* _out_tc float3 纹理坐标
+It's not hard to guess that there are also:
+* _out_pos_proj | float4 | Projection Space Vertex Position
+* _out_tc | float3 | Texture Coordinates
 
-但是我没有深入研究本部分的内容，没有源代码研究它们太过困难。
+But I didn't delve into this section, it's too difficult to study them without source code.

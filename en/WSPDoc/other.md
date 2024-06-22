@@ -1,19 +1,18 @@
-## 目录
-*  [附录1 自动清除着色器缓存](#附录1-自动清除着色器缓存)
-*  [返回](./menu.md)
+## Catalog
+* [Appendix 1 Automatic Shader Cache Clearing](#appendix-1-automatic-shader-cache-clearing)
+* [Return](./menu.md)
 
-# 附录1 自动清除着色器缓存
-在mod根目录有两个.bat文件:  
+# Appendix 1 Automatic Shader Cache Clearing
+There are two .bat files in the mod root directory:.  
 * ClearShaderCache.bat
 * ClearShaderCacheMOWIIOnly.bat
 
-它们的原始代码来自[Delete your shader cache to stop crashing](https://steamcommunity.com/app/553850/discussions/0/4295944344102442951/)，感谢 @DarthPotato 的工作。  
+Their original code comes from [Delete your shader cache to stop crashing](https://steamcommunity.com/app/553850/discussions/0/4295944344102442951/), thanks to @ DarthPotato for his work.  
 
-ClearShaderCache.bat会删除你电脑上所有的着色器缓存（除了特定游戏额外存放的）。  
-ClearShaderCacheMOWIIOnly.bat只会删除MOW II单独存储在AppData\Local\Men of War II\shader_cache中的缓存文件。  
+ClearShaderCache.bat deletes all shader caches on your computer (except for the extra ones stored for specific games).  
+ClearShaderCacheMOWIIOnly.bat will only delete MOW II's cache files stored separately in AppData\Local\Men of War II\shader_cache.  
 
-在mod更新之后，请至少运行ClearShaderCacheMOWIIOnly.bat，基本上来说这会清除MOWII因为判断不准确导致着色器未能成功编译导致的问题。  
+Please run ClearShaderCacheMOWIIOnly.bat at least once after mod update, basically this will clear up any problems with MOWII due to inaccurate judgments causing shaders to not compile successfully.  
 
-如果游戏产生奇怪的报错，可以尝试首先运行ClearShaderCacheMOWIIOnly.bat，如果问题仍然存在尝试运行ClearShaderCache.bat。
-如果全部执行依旧出现问题，在任意地方向我反馈这个问题！我在此提前感谢您的帮助。
-
+If the game throws strange errors, try running ClearShaderCacheMOWIIOnly.bat first, and if the problem persists try running ClearShaderCache.bat.  
+If the problem still persists run all of them and the problem still occurs, send me feedback about the problem anywhere! I would like to thank you in advance for your help.

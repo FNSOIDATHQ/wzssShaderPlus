@@ -58,10 +58,10 @@ The structure of a CodeBlock is shown below
     }
 ```
 It contains several main sections:
-* "CodeBlock" |the type of the CodeBlock
-* uid |The unique identifier of the CodeBlock, the uid **can't be duplicated in a single GSM file** and is used to index the corresponding CodeBlock in the link statement.
-* position |the position of the block in the 2d visualization window of the material editor.
-* properties |The parameters of this CodeBlock, each parameter is represented as {m n}, m is the parameter name and n is the parameter.  
+* **"CodeBlock"** | the type of the CodeBlock
+* **uid** | The unique identifier of the CodeBlock, the uid **can't be duplicated in a single GSM file** and is used to index the corresponding CodeBlock in the link statement.
+* **position** | the position of the block in the 2d visualization window of the material editor.
+* **properties** | The parameters of this CodeBlock, each parameter is represented as {m n}, m is the parameter name and n is the parameter.  
     * This section is optional.
     * where comments is a special parameter that will be treated as a comment, similar to a direct ; symbol comment. I guess using this way comments can be displayed in the material editor.
     * It might be possible to define the values of input parameters directly through properties, see [Example of a Pan block](./CodeBlock.md#pan)
