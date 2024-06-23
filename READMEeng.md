@@ -13,13 +13,17 @@ I used deepl + simple proofreading to translate this document to English, if the
 * ### [Computer Graphics Materials](./en/CGDoc/menu.md)
 ---
   
-* ### [Copyright Statement](#Copyright-Statement)
-* ### [Support my Work](#Support-my-Work)
+* [Copyright Statement](#copyright-statement)
+* [Feedback](#feedback)
+* [Support my Work](#support-my-work)
 ## Copyright Statement
 According to the [EULA](https://store.steampowered.com//eula/1128860_eula_0)  of MOW II, I shall have full rights to this repository, granting also all rights mentioned in the EULA of Fulqrum Publishing Ltd.  
 All data in the Computer Graphics Materials section are copyrighted by their authors, and I use them in this repository in a certain way by means of a specific agreement (e.g. MIT), according to the specifics of which I will make a copyright notice in the corresponding folder.  
 For the reader,you, I grant you the right to use all my copyrighted data in this repository based on the MIT agreement. I will also maintain such agreements in any future additions.  
-These agreements are essential for the establishment of the ideas in the next section.  
+These agreements are essential for the establishment of the ideas in the follow section.  
+## Feedback
+Found a mistake? Have questions about specific techniques and methods?  
+Use github's [issue](https://github.com/FNSOIDATHQ/wzssShaderPlusDoc/issues) feature to send me a message!
 ## Support my Work
 First of all, if you like my products, please give this repository a STAR, I'd appreciate it =)  
   

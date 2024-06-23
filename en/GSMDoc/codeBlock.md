@@ -1,54 +1,55 @@
-## 目录  
-*  [概述](#概述)  
-*  [数学函数](#数学函数)
-*  [输入参数](#输入参数)
-*  [流程控制](#流程控制)
-*  [工具集](#工具集)
-*  [自定义代码块](#自定义代码块)  
-*  [返回](./menu.md)  
+## Catalog  
+* [Overview](#overview)  
+* [Math Function](#math-function)
+* [Input Parameter](#input-parameter)
+* [Control Flow](#control-flow)
+* [Toolset](#toolset)
+* [Comment](#comment)  
+* [Custom CodeBlock](#custom-codeblock)  
+* [Return](./menu.md)  
 
-# 概述
-首先，我建议你查阅[英伟达的CG函数文档](https://developer.download.nvidia.com/cg/index_stdlib.html)，那里有关于同名代码块更加详细的解释，特别是数学函数部分。我会在稍后补充非单个参数代码块的实际代码实现。（它们不容易被解读，因为全部被硬编码进可执行文件中了）
+# Overview
+First, I suggest you consult [NVIDIA's CG Function Documentation](https://developer.download.nvidia.com/cg/index_stdlib.html), where there is a more detailed explanation of the same name CodeBlock, especially the math function section.  
+I'll add actual code implementations of non-single-argument CodeBlocks later. (They're not easy to decipher, since they're all hard-coded into the executable.)
 
-然后，这份列表很可能有缺漏和错误，这是因为它们是依靠阅读硬编码文本得到的结果，很可能我遗漏了某些代码块没有介绍，或者理解错了代码块的实际含义，如果发现请提出issue。
+Then, this list is likely to have omissions and errors, this is because they are the result of reading the hardcoded text, and it is likely that I have missed some CodeBlocks that are not presented, or misunderstood what the CodeBlocks actually mean, if you find them, please send an issue.
 
-大致上来说，GSM提供的代码块分为6个部分：
-* 数学函数
-* 输入参数
-* 流程控制
-* 工具集
-* 自定义代码块
-* 输出块
+Roughly speaking, the CodeBlocks provided by GSM are divided into 6 sections:
+* Math Function
+* Input Parameter
+* Control Flow
+* Toolset
+* Custom CodeBlock
+* Output Block
 
-其中输出块作为基础概念已经在上一章详细解释过，不再在本章列出。  
+Where output block as a basic concept have been explained in detail in the previous chapter and will not be listed in this chapter.  
 
-我会按照：
-* 名字
-* 代码块样例
-* 输入输出参数
-* 功能概述
-* 注意事项
-* HLSL代码实现
+I'll introduce each function in the order of:  
+* Name
+* Sample CodeBlock
+* Input and output parameters
+* Functional overview
+* Notes
+* HLSL code implementation
 
-的顺序介绍每个函数。
-在输入输出参数中，我们记
-* [参数类型]
+Among the input and output parameters, we note
+* [parameter type]
 
-为一个参数。  
-一些参数可能实际上可以以不同的类型输入，在下个可能的文档版本我会添加多类型输入的记录。
+for a parameter.  
+Some parameters may actually be able to be entered as different types, and in the next possible version of the documentation I'll add documentation for multiple types of input.
 
 ---
-在正文开始前，我们快速列出一个完整的代码块表供跳转：  
-跳转表是为下载用户准备的，如果你在github直接查看请跳过。  
+Before the main text begins, let's quickly list a complete table of CodeBlocks for jumping:  
+The jump table is for download users, so if you're viewing it directly at github please skip it.  
 
-[数学函数](#数学函数)  
+[Math Function](#math-function)
 
-* [GSM新增](#gsm新增)  
+* [***GSM added***](#gsm-added)  
 * [Math/Add](#mathadd)  
 * [Math/Div](#mathdiv)  
 * [Math/OneMinus](#mathoneminus)  
 * [Math/Sub](#mathsub)  
-* [DX内部函数](#dx内部函数)  
+* [***DX Internal Functions***](#dx-internal-functions)  
 * [Math/Abs](#mathabs)  
 * [Math/Ceil](#mathceil)  
 * [Math/Clamp](#mathclamp)  
@@ -68,7 +69,7 @@
 * [Math/Smoothstep](#mathsmoothstep)  
 
 
-[输入参数](#输入参数)  
+[Input Parameter](#input-parameter)  
 
 * [Parameter/Color](#parametercolor)  
 * [Parameter/Float](#parameterfloat)  
@@ -92,11 +93,11 @@
 * [WindAmplitude ](#windamplitude)  
 * [Scheme](#scheme)  
 
-[流程控制](#流程控制)  
+[Control Flow](#control-flow)  
 
 * [If](#if)  
 
-[工具集](#工具集)  
+[Toolset](#toolset)  
 
 * [Combine](#combine)  
 * [DiffuseToAO](#diffusetoao)  
@@ -115,26 +116,26 @@
 * [Desaturate](#desaturate)  
 * [SampleAtlas](#sampleatlas)  
 
-[注释](#注释)  
+[Comment](#comment)  
 
 * [Comments](#comments)  
 
-[自定义代码块](#自定义代码块)  
+[Custom CodeBlock](#custom-codeblock)  
 
 * [CustomCode](#customcode)  
 * [CustomVertexCode](#customvertexcode)  
 ---
-# 数学函数
-所有的数学函数都以"Math/"开头，然而GSM并不提供全部可能用到的数学函数，偶尔你可能需要手动实现它们。  
-我们只介绍和标准DX内部函数不同的代码块，相同的仅标注是否确定与DX版本一样。  
+# Math Function
+All math functions start with "Math/", however GSM does not provide all possible math functions and occasionally you may need to implement them manually.  
+We only present code blocks that differ from the standard DX internal functions, the same ones are only labeled if they are determined to be the same as the DX version.  
 
 ---
-我们按照是否为DX内部函数进行分类然后以字典序介绍它们：  
-（实际上GSM就加了几个基础运算符）
+We categorize them by whether they are DX internal functions or not and then present them in dictionary order:  
+(Actually, GSM adds just a few basic operators)
 
 
 ---
-## ***GSM新增***
+## ***GSM added***
 ## Math/Add  
 ```
 	{"Math/Add"
@@ -142,14 +143,14 @@
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float
 * float
 
-输出：
+Output(s)：
 * float
 
->加法。
+>Addition.  
 ## Math/Div  
 ```
 	{"Math/Div"
@@ -157,15 +158,16 @@
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float
 * float
 
-输出：
+Output(s)：
 * float
 
->除法。
-HLSL代码实现：  
+>Division.  
+
+HLSL code implementation：  
 >out0=a/b;
 ## Math/OneMinus  
 ```
@@ -174,15 +176,15 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float
 
-输出：
+Output(s)：
 * float
 
->1-输入0
+>1-Input0.
 
-HLSL代码实现：  
+HLSL code implementation：  
 >out0=1-a;
 ## Math/Sub  
 ```
@@ -191,64 +193,64 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float
 * float
 
-输出：
+Output(s)：
 * float
 
->减法。  
+>Subtraction.  
 
-HLSL代码实现：  
+HLSL code implementation：  
 >out0=a-b;
 
 
 ---
-## ***DX内部函数***
+## ***DX Internal Functions***
 ## Math/Abs  
->等同于DX内部函数abs。
+>Equivalent to the DX internal function abs.
 ## Math/Ceil  
->没有使用样例，很可能等同于DX内部函数ceil。
+>No samples used, probably equivalent to the DX internal function ceil.
 ## Math/Clamp  
->没有使用样例，很可能等同于DX内部函数clamp。
+>No samples used, probably equivalent to the DX internal function clamp.
 ## Math/Cosine  
->没有使用样例，很可能等同于DX内部函数cos。
+>No samples used, probably equivalent to the DX internal function cos.
 ## Math/Cross  
->没有使用样例，很可能等同于DX内部函数cross。
+>No samples used, probably equivalent to the DX internal function cross.
 ## Math/Dot  
->等同于DX内部函数dot。
+>Equivalent to the DX internal function dot.
 ## Math/Exp
->等同于DX内部函数exp。
+>Equivalent to the DX internal function exp.
 ## Math/Floor  
->没有使用样例，很可能等同于DX内部函数floor。
+>No samples used, probably equivalent to the DX internal function floor.
 ## Math/Fraction  
->等同于DX内部函数frac。
+>Equivalent to the DX internal function frac.
 ## Math/Lerp  
->等同于DX内部函数lerp。
+>Equivalent to the DX internal function lerp.
 ## Math/Max  
->等同于DX内部函数max。
+>Equivalent to the DX internal function max.
 ## Math/Min  
->没有使用样例，很可能等同于DX内部函数min。
+>No samples used, probably equivalent to the DX internal function min.
 ## Math/Mul  
->等同于DX内部函数mul。
+>Equivalent to the DX internal function mul.
 ## Math/Power  
->等同于DX内部函数pow。
+>Equivalent to the DX internal function pow.
 ## Math/Round  
->没有使用样例，很可能等同于DX内部函数round。
+>No samples used, probably equivalent to the DX internal function round.
 ## Math/Saturate  
->等同于DX内部函数saturate。
+>Equivalent to the DX internal function saturate.
 ## Math/Smoothstep  
->没有使用样例，很可能等同于DX内部函数smoothstep。
+>No samples used, probably equivalent to the DX internal function smoothstep.
 
 
 
-# 输入参数
-输入参数大致被分为四部分：Parameter/，Camera/，Vertex/和其它。
-然而这种分类不是完全严谨的，我会按照稍有调整的字典序+功能分类顺序介绍参数。  
+# Input Parameter
+Input parameters are roughly categorized into four sections: Parameter/, Camera/, Vertex/ and others.  
+However, this categorization is not completely rigorous, and I will present the parameters in a slightly adjusted dictionary-order + function-categorization order.  
 
 ---
-第一部分是标准参数，以Parameter/开头，基本上来说他们都是float的变形：  
+The first part is the standard parameters, starting with Parameter/, which are basically variations of float:  
 ## Parameter/Color  
 ```
 	{"Parameter/Color"
@@ -263,18 +265,18 @@ HLSL代码实现：
 		}
 	}
 ```
-输出：
+Output(s)：
 * float3
-* float(存疑)
+* float(doubtful)
 
->颜色参数  
->在包含external之后支持在编辑器前端调整该变量。  
->值使用十六进制数表示，具体转换方法参考[该网站](https://www.runoob.com/html/html-colorvalues.html)。
+>Color parameter  
+> Support for adjusting this variable on the front end of the editor after including external.  
+>Values are expressed using hexadecimal numbers, refer to [this site](https://htmlcolorcodes.com/) for the conversion.
 
-注意：  
-* external内只有{on}没有{off}
-* 该参数很可能不支持输出透明度，尽管在所有GSM里都使用八位十六进制表示。如果实际上支持，则第二个输出引脚为透明度
-* 在mtl中，请使用六位十六进制表示值，八位会只读取后六位导致行为不一致
+Notes:  
+* There is only {on} but no {off} within external
+* This parameter most likely does not support Output(s) transparency, even though the eight-bit hexadecimal representation is used in all GSMs. If it is in fact supported, the second Output(s) pin is transparent
+* In mtl, use six bits of hexadecimal for the value, eight bits will read only the last six bits resulting in inconsistent behavior
 ## Parameter/Float  
 ```
 	{"Parameter/Float"
@@ -289,14 +291,14 @@ HLSL代码实现：
 		}
 	}
 ```
-输出：
+Output(s)：
 * float
 
->单浮点参数。  
->在包含external之后支持在编辑器前端调整该变量。  
+> Single float parameter.  
+> Support for tweaking this variable in the editor frontend after including external.  
 
-注意：  
-* external内只有{on}没有{off}
+Notes:  
+* There is only {on} but no {off} within external
 ## Parameter/Float2  
 ```
 	{"Parameter/Float2"
@@ -312,14 +314,14 @@ HLSL代码实现：
 		}
 	}
 ```
-输出：
+Output(s)：
 * float2
 
->双浮点参数，a=第一个浮点值，b=第二个浮点值。  
->在包含external之后支持在编辑器前端调整该变量。  
+> Double float parameter, a = first float value, b = second float value.  
+> Support for tweaking this variable in the editor frontend after including external.  
 
-注意：  
-* external内只有{on}没有{off}
+Notes:  
+* There is only {on} but no {off} within external
 ## Parameter/Float3  
 ```
 	{"Parameter/Float3"
@@ -336,14 +338,14 @@ HLSL代码实现：
 		}
 	}
 ```
-输出：
+Output(s)：
 * float3
 
->三浮点参数，a=第一个浮点值，b=第二个浮点值，c=第三个浮点值。  
->在包含external之后支持在编辑器前端调整该变量。  
+> Three float parameter, a = first float value, b = second float value, c = third float value.  
+> Support for tweaking this variable in the editor frontend after including external.  
 
-注意：  
-* external内只有{on}没有{off}
+Notes:  
+* There is only {on} but no {off} within external
 ## Parameter/Luminosity  
 ```
 	{"Parameter/Luminosity"
@@ -358,15 +360,15 @@ HLSL代码实现：
 		}
 	}
 ```
-输出：
+Output(s)：
 * float
 
->它理论上是一个单浮点参数。  
->在包含external之后支持在编辑器前端调整该变量。  
+>It is theoretically a single float parameter.  
+> Support for tweaking this variable in the editor frontend after including external.  
 
-注意：  
-* external内只有{on}没有{off}
-* 一般该参数出现在输出到自发光引脚的流程中，但是实际测试时我没有看到任何差异
+Notes:  
+* There is only {on} but no {off} within external
+* Normally this parameter appears in the flow from output to the emissive pins, but I didn't see any difference in the actual test
 ## Parameter/Texture
 ```
 	{"Parameter/Texture"
@@ -386,7 +388,7 @@ HLSL代码实现：
 		}
 	}
 ```
-常见使用样例：
+Common Usage Examples：
 ```
 	{"Parameter/Texture"
 		{uid 4}
@@ -431,48 +433,48 @@ HLSL代码实现：
 		}
 	}
 ```
-输入：
+Input(s)：
 * float3
-* float3(存疑)
+* float3(doubtful)
 
-输出：
+Output(s)：
 * float3
 * float
 
->它代表一张可能包含透明度的四通道贴图。  
->输出0=颜色通道，输出1=Alpha通道。  
+> It represents a four-channel map that may contain transparency.  
+>Output0 = color channel, Output1 = Alpha channel.  
 >
->使用{file x}参数可以将贴图指向指定路径的文件，此时贴图在前端被隐藏。  
->>使用{file @x}时会根据输入创建一个叫x的贴图：  
+>>Using {file x} parameter to point the texture to a file at the specified path, where the texture will be hidden on the front end.  
+>>Using {file @x} creates a texture called x based on the Inputs.  
 >
->{tile x}参数规定了贴图作用于uv上的哪个tile，关于tile参见[UV tiles](https://helpx.adobe.com/substance-3d-painter/features/uv-tiles.html)。  
+> The {tile x} parameter specifies which tile on the uv the texture acts on, see [UV tiles](https://helpx.adobe.com/substance-3d-painter/features/uv-tiles.html) for tiles.  
 >
->{srgb x}参数规定了是否按照srgb色彩空间来处理贴图：
->>为0则按照线性空间读取  
->>srgb和线性空间的差异参见[Linear, Gamma and sRGB Color Spaces](https://matt77hias.github.io/blog/2018/07/01/linear-gamma-and-sRGB-color-spaces.html)  
+>{srgb x} parameter specifies whether the texture is processed according to the srgb color space:
+>> A value of 0 reads the texture in linear space.  
+>>See [Linear, Gamma and sRGB Color Spaces](https://matt77hias.github.io/blog/2018/07/01/linear-gamma-and-sRGB-color-spaces.html) for the difference between srgb and linear spaces.  
 >
->{type x}决定了输入贴图的类型，存在三种状态：
->>2D 默认参数，即标准2D贴图  
->>VOLUME 待补充，一般与{content signed}连用  
->>CUBE 立方体贴图，一般用于天空盒  
+>{type x} determines the type of input texture, there are three states:
+>>2D | Default parameter, i.e. standard 2D texture.  
+>>VOLUME | To be added, generally used in conjunction with {content signed}.  
+>>CUBE | Cube texture, generally used for skyboxes.  
+>  
+>{content x} determines the special reading method for input texture, three states exist:
+>>default | Default parameter, i.e. color texture.  
+>>normals | Normal texture, seems to be able to specify the reading method, to be added.
+>>signed | To be added, usually used in conjunction with {type VOLUME}.  
+>  
+>{filter} unknown, only used in progress.gsm & progress_mask.gsm.
 >
->{content x}决定输入贴图的特殊读取方法，存在三种状态：
->>default 默认参数，即正常贴图  
->>normals 法线贴图，似乎可以指定读取方式，待补充
->>signed 待补充，一般与{type VOLUME}连用  
->
->{filter}用处未知，仅在progress.gsm&progress_mask.gsm中出现
->
->{normal_type}可能已经弃用
+>{normal_type} may be deprecated.
 
-注意：  
-* 该参数默认显示在前端，不需要手动开启，使用{file @x}时前端显示自动关闭
-* 第0个输入一般为纹理坐标或者预乘了纹理坐标的数据，即Vertex/Texcoord
-* 第1个输入内容未知，似乎仅有ReflectCube的输出接到这里
-* 不同的参数组合不一定可以一起用，但是目前我没有深入研究
-* 特殊参数：@sky_map 很可能可用直接获取当前场景的天空球贴图
+Notes:  
+* This parameter is displayed on the frontend by default and does not need to be turned on manually, the frontend display is automatically turned off when {file @x} is used
+* The 0th input are usually texture coordinates or pre-multiplied texture coordinates, i.e. Vertex/Texcoord
+* The content of the 1st Input is unknown, it seems that only the output of the ReflectCube is received here
+* Different parameter combinations don't always work together, but I haven't looked into it so far
+* Special parameter: @sky_map can probably be used to directly get the sky sphere map of the current scene
 ---
-第二部分是变换参数，其中相机变换以Camera/开头：  
+The second part is the transform parameters, where the camera transform starts with Camera/:  
 ## Camera/Direction  
 ```
 	{"Camera/Direction"
@@ -480,12 +482,12 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ```
-输出：
+Output(s)：
 * float3
 
->输出相机的世界空间方向向量。
+>Outputs the world space direction vector of the camera.  
 
-HLSL代码实现：  
+HLSL code implementation：  
 >Camera direction = normalize(camera_origin - _in_pos_world);
 ## Camera/DirectionTangentSpace  
 ```
@@ -494,12 +496,12 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ```
-输出：
+Output(s)：
 * float3
 
->输出相机的切线空间方向向量。
+>Outputs the tangent spatial direction vector of the camera.
 
-HLSL代码实现：  
+HLSL code implementation：  
 >Camera direction TS = normalize(_in_view_tangent);
 ## Camera/Distance  
 ```
@@ -508,12 +510,12 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ```
-输出：
+Output(s)：
 * float
 
->输出物体与相机在世界空间的距离。  
+>Outputs the distance between the object and the camera in world space.  
 
-HLSL代码实现：  
+HLSL code implementation：  
 >Camera distance = distance(camera_origin, _in_pos_world);
 ## Camera/Origin  
 ```
@@ -522,12 +524,12 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ```
-输出：
+Output(s)：
 * float3
 
->输出相机的世界空间位置。
+>Outputs the world space position of the camera.  
 
-HLSL代码实现：  
+HLSL code implementation：  
 >Camera origin = camera_origin;
 ## ProjectedPosition  
 ```
@@ -536,12 +538,12 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ```
-输出：
+Output(s)：
 * float3
 
->输出物体的投影空间位置。
+>Outputs the projected spatial position of the object.  
 
-HLSL代码实现：  
+HLSL code implementation：  
 >Projected position = _in_pos_proj;
 ## WorldPosition  
 ```
@@ -550,15 +552,15 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ```
-输出：
+Output(s)：
 * float3
 
->输出物体的世界空间位置。
+>Outputs the world space position of the object.  
 
-HLSL代码实现：  
+HLSL code implementation：  
 >World position = _in_pos_world;
 ---
-第三部分是顶点参数，大部分以Vertex/开头：  
+The third part is the vertex parameters, most of which start with Vertex/:  
 ## Vertex/Color  
 ```
 	{"Vertex/Color"
@@ -566,12 +568,12 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ```
-输出：
+Output(s)：
 * float3
 * float
 
->包含Alpha通道的顶点颜色。  
->输出0=颜色，输出1=Alpha。
+> Vertex color containing the Alpha channel.  
+> Output 0 = color, output 1 = Alpha.
 
 ## Vertex/Texcoord  
 ```
@@ -583,12 +585,12 @@ HLSL代码实现：
 		}
 	}
 ```
-输出：
+Output(s)：
 * float2
 
->2D纹理坐标，即UV。  
->一般作为贴图的输入。  
->{set x}指定了获取哪个通道的UV作为输入，一般为0。
+> 2D texture coordinates, i.e. UV.  
+>Generally used as input for texture.  
+>{set x} specifies which channel's UV to get as input, typically 0.
 
 ## Texcoord3D  
 ```
@@ -597,13 +599,13 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ```
-输出：
+Output(s)：
 * float3
 
->3D纹理坐标，实际上不是真的3D纹理，而是立方体贴图的纹理坐标。  
->一般作为天空盒贴图的输入。  
+> 3D texture coordinates, which are not really 3D textures, but texture coordinates for cube texture.  
+> Generally used as input for skybox texture.  
 ---
-第四部分是场景参数，它们提供了来自环境或者系统或者屏幕的信息：  
+The fourth section is the scene parameters, which provide information from the environment or system or screen:  
 ## Depth
 ```
 	{"Depth"
@@ -617,11 +619,11 @@ HLSL代码实现：
 		}
 	}
 ``` 
-输出：
+Output(s)：
 * float
 * float
 
->待补充
+>to be added.
 ## Time  
 ```
 	{"Time"
@@ -632,11 +634,11 @@ HLSL代码实现：
 		}
 	}
 ``` 
-输出：
-* float(猜测)
+Output(s)：
+* float (guess)
 
->用法不明，猜测为全局时间
->{scale x}为简单的值缩放，即output=x*SceneTime
+> Usage unknown, guessing global time  
+>{scale x} is simple value scaling, i.e. output=x*SceneTime  
 ## SceneTime 
 ```
 	{"SceneTime"
@@ -647,12 +649,12 @@ HLSL代码实现：
 		}
 	}
 ``` 
-输出：
+Output(s)：
 * float
 
->场景时间  
->计量方法不明  
->{scale x}为简单的值缩放，即output=x*SceneTime
+>Scene time  
+>Measurement method unknown  
+>{scale x} is simple value scaling, i.e. output=x*SceneTime  
 ## SceneEnvironmentColor 
 ```
 	{"SceneEnvironmentColor"
@@ -660,13 +662,13 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输出：
+Output(s)：
 * float3
 
->即编辑器中的environmet/sky/color
+>i.e. environmet/sky/color in the editor
 
-注意：  
-* 这不是天空盒的色彩，天空盒需要自己[采样](#reflectcube)获得
+Notes:  
+* This is not the color of the skybox, the skybox needs to be [sampled](#reflectcube) by yourself to get it
 ## WindAmplitude  
 ```
 	{"WindAmplitude"
@@ -674,15 +676,15 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输出：
+Output(s)：
 * float
 
->风振幅，即风的频率，反映风由小到大再变小的周期
+>Wind amplitude, the frequency of the wind, reflects the period of time in which the wind goes from small to large and back again.
 
-注意：  
-* 这不是风速，风速可能被记录为wind_params（硬编码中它再风速的旁边），但是没有进一步的信息
+Notes:  
+* This is not the wind speed, which may be recorded as wind_params (hardcoded next to wind_speed), but no further information is available
 ---
-第五部分是特殊参数：  
+The fifth part is special parameters:  
 ## Scheme
 ```
 	{"Scheme"
@@ -693,21 +695,21 @@ HLSL代码实现：
 		}
 	}
 ```
-输出：
-* 视该Scheme的Material类型而定
+Output(s)：
+* Depends on the Material type of the Scheme
 
 
->将一个GSM文件作为输入。  
->GSM很可能是“GEM Scheme Material”的简称，所以Scheme可以简单代指一个GSM文件。  
->{id x}参数是必要的，这和shader_combinations.set中的代码结构有关：  
->>大致上来说，在该文件中会以"该着色器：第1个着色器输入：第2个着色器输入"的格式编译这种嵌套着色器（实际输入顺序可能是反的，我没有具体研究）  
->>所以请按从1编号的顺序填写id
+> Take a GSM file as input.  
+>GSM is most likely short for "GEM Scheme Material", so the Scheme can simply refer to a GSM file.  
+>{id x} parameter is necessary, depending on the structure of the code in shader_combinations.set:  
+>> Roughly speaking, the nested shaders are compiled in that file in the format "this shader: shader input 1: shader input 2" (the actual order of inputs may be reversed, I haven't looked into it)  
+>> So please fill in the ids in order of numbering from 1.
 >
->输出引脚与指定Material的输出引脚严格对照。
-# 流程控制
-GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)中提到其它进行流程控制的办法。  
-值得注意的是：显卡并不擅长进行流程控制，巧妙地把流程控制转变成数学计算或者在编译阶段剔除它们更加合适。  
-在GSM中，如果想要做两个互补的功能，最好把它们分散到两个着色器里。然而如果少量的流程控制能带来便利，这仍然是可以接受的代价。 
+> Output pins are strictly aligned with the output pins of the specified material.
+# Control Flow
+GSM only provides IF as control flow, we will mention other ways to do control flow in [Custom CodeBlock](./custom.md).  
+It's worth noting that GPUs are not very good at doing flow of controls, and it's more appropriate to subtly turn them into mathematical calculations or to eliminate them at the compilation stage.  
+In GSM, if you want to do two complementary functions, it's better to spread them over two shaders. However if a small amount of control flow is convenient, it's still an acceptable price to pay. 
 
 ## If
 ```
@@ -716,24 +718,23 @@ GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)
 		{position 123 456}
 	}
 ```
-输入：
+Input(s)：
 * float?
 * float?
 * float?
 * float?
 
-输出：
+Output(s)：
 * float?
 
->我不知道这个函数是怎么运作的，虽然它看起来很像流程控制，但是我还没猜出来具体要怎么用
+>I don't know how this function works, and while it looks a lot like control flow, I haven't guessed exactly how it's going to work yet.
 
-# 工具集
-这些函数执行从输入到输出的一组特定改变，往往具体实现由多行代码组成。  
-它们或是简化了代码编写，或是提供了特殊的功能。  
-我会按照字典序介绍参数。
+# Toolset
+These functions perform a specific set of changes from input to output, often with specific implementations consisting of multiple lines of code.  
+They either simplify code writing or provide special functionality.  
+I'll introduce parameters in dictionary order.  
 
 ---
-以下是包含了特殊功能的代码块  
 ## Combine  
 ```
 	{"Combine"
@@ -744,17 +745,17 @@ GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)
 		}
 	}
 ``` 
-输入：
-* 视inputs参数而定
+Input(s)：
+* Depending on the input parameters
 
-输出：
-* 视inputs参数而定
+Output(s)：
+* Depending on the input parameters
 
->组合输入参数的通道。
->inputs的范围可能是1-4，4没有在任何地方使用过，所以不确定是否真的可用。
+> Combine the channels of the input parameters.  
+> Inputs may range from 1-4, 4 has not been used anywhere so not sure if it is really available.
 
-注意：  
-* 不确定，但是猜测只能组合单通道输入，如果想要组合flot2+float或者float3+float这样的形式可能要预先拆分
+Notes:  
+* Not sure, but guessing that only single channel inputs can be combined, if you want to combine something like flot2+float or float3+float you may have to pre-split it
 ## DiffuseToAO  
 ```
 	{"DiffuseToAO"
@@ -762,16 +763,16 @@ GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float3
 
-输出：
+Output(s)：
 * float3
 * float
 
->基于预烘焙了阴影的漫反射计算AO。  
->输出0=漫反射  
->输出1=AO  
+> Calculate AO based on diffuse with pre-baked shadows.  
+>Output 0 = diffuse texture  
+>Output 1 = AO  
 ## Extract  
 ```
 	{"Extract"
@@ -782,17 +783,17 @@ GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)
 		}
 	}
 ``` 
-输入：
+Input(s)：
 * float4
 
-输出：
-* 视组件类型而定
+Output(s)：
+* Depends on component type
 
->分离输入参数的通道
->组件ABCD分别等于a.x|a.y|a.z|a.w
+> Separate channels for input parameters.  
+> component ABCD is equal to a.x|a.y|a.z|a.w respectively.
 
-注意：  
-* 你可以组合分离出的通道，格式为{components "A B C"}
+Notes:  
+* You can combine the separated channels in the format {components "A B C"}
 ## Fresnel  
 ```
 	{"Fresnel"
@@ -800,14 +801,14 @@ GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float3
 * float
 
-输出：
+Output(s)：
 * float3
 
->我不知道这个代码块实际上在干什么，它的唯一使用在gem2/water.gsm中。
+>I have no idea what this code block is actually doing, its only use is in gem2/water.gsm.
 ## FromTangent  
 ```
 	{"FromTangent"
@@ -815,19 +816,19 @@ GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float3
 * float
 
-输出：
+Output(s)：
 * float3
 
->将切向空间法线转换到世界空间。  
->输入0=切向法线  
->输入1=法线强度  
+> Convert tangential space normal to world space.  
+>Enter 0 = tangential normal  
+>Enter 1 = normal strength  
 
-注意：  
-* 它隐含了法线强度计算
+Notice:  
+* It implicitly calculates the normal strength
 ## GammaToLinear  
 ```
 	{"GammaToLinear"
@@ -835,15 +836,15 @@ GSM仅提供IF作为流程控制，我们会在[自定义代码块](./custom.md)
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float3
 
-输出：
+Output(s)：
 * float3
 
->进行gamma到线性转换
+>Perform a gamma to linear conversion.
 
-HLSL代码实现：  
+HLSL code implementation：  
 >out0= pow(a, gamma_value);
 ## Normalize  
 ```
@@ -852,13 +853,13 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float
 
-输出：
+Output(s)：
 * float
 
->等效于DX内部函数normalize
+>Equivalent to the DX internal function normalize.
 
 ## Pan
 ```
@@ -872,26 +873,26 @@ HLSL代码实现：
 		}
 	}
 ``` 
-输入：
-* float3
+Input(s)：
+* float
 * float
 * float
 * float
 * float
 * float（？）
 
-输出：
+Output(s)：
 * float3
 
->用于执行贴纹理坐标位移。  
->输入0=纹理坐标（透过Extract Component A或B解压）  
->输入1=总位移速度  
->输入2，3，4=分xyz方向的位移速度  
->似乎存在输入5=时间？不知道具体含义
+> Used to perform texture coordinate displacement.  
+>Input 0 = single texture coordinates  
+>Input 1 = total displacement velocity  
+>Inputs 2, 3, 4 = displacement velocity in xyz direction.  
+>It seems that there is an input 5 = time? I don't know what it means.
 
-注意：  
-* 一般来说输入234被定义在properties中
-* 看起来可以通过properties直接定义输入引脚的固定参数？我不知道者是否可以推广到别的代码块上
+Notes:  
+* In general input 234 is defined in properties  
+* It looks like you can define fixed parameters for input pins directly from properties? I don't know if this can be generalized to other code blocks
 ## Parallax
 ```
 	{"Parallax"
@@ -899,7 +900,7 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
->很复杂，待补充。
+>It's complicated, to be added.
 
 ## Reflect
 ```
@@ -908,20 +909,20 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float3
 * float3
 
-输出：
+Output(s)：
 * float3
 
->似乎仅仅是DX内部函数reflect的取反。  
->输入0=输入射线，输入1=法线。
+> It seems to be simply the inverse of the DX internal function reflect.  
+> Input 0 = input ray, input 1 = normal.
 
-注意：  
-* 没有使用样例，输入输出是我按照硬编码猜的，我不确定我找到的是否确定是reflect的实现代码
+Notes:  
+* No samples were used, the inputs and outputs are my guesses according to the hardcoding, I'm not sure if what I found is definitively the implementation code for reflect
 
-HLSL代码实现：  
+HLSL code implementation：  
 >out0=-reflect(a, b);
 ## ReflectCube  
 ```
@@ -930,20 +931,20 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float3
 * float3
 
-输出：
+Output(s)：
 * float3
 
->用于计算反射。  
->输入0=相机的世界空间方向，输入1=?。  
->输出0为反射角度（？）。
+> For calculating reflections.  
+>Input 0 = world space direction of the camera, input 1 = ?  
+>Output 0 is the reflection angle (?) .
 
-注意：  
-* 我很确定它有两个输入，但是第二个输入未知，所有的样例均不输入第二个参数
-* 输出的实际内容未知，但是一般接到Texture的1号输入引脚上
+Notes:  
+* I'm pretty sure it has two inputs, but the second input is unknown, and all samples do not input the second parameter
+* The actual content of the output is unknown, but it is generally connected to input pin 1 of Texture
 ## Rotate2D  
 ```
 	{"Rotate2D"
@@ -951,19 +952,19 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float2
 * float
 
-输出：
+Output(s)：
 * float2
 
->可能用来旋转UV。  
->输入0=UV，输入1=旋转角度。  
->输出0为旋转后的UV。  
+>May be used to rotate UVs.  
+>Input 0 = UV, input 1 = rotation angle.  
+>Output 0 is the rotated UV.  
 
-注意：  
-* 没有使用样例，输入输出是我按照硬编码猜的
+Notes:  
+* No samples were used, the inputs and outputs are my guesses according to hardcoding
 ## SpecularToMetallicRoughness
 ```
 	{"SpecularToMetallicRoughness"
@@ -971,16 +972,16 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float3
 
-输出：
+Output(s)：
 * float
 * float
 
->将输入的高光贴图转换为金属度和粗糙度。  
->具体转换原理待补充，大致可以参考[官方文档](https://bestway-1.gitbook.io/dokumentaciya/tekstury-i-materialy/physically-based-rendering/redaktor-skhem-pbr-i-konversiya-tekstur)。  
->输出0为金属度，输出1为粗糙度。  
+> Convert the input specular map to metallic and roughness.  
+> Specific conversion principles to be added, roughly refer to [official documentation](https://bestway-1.gitbook.io/dokumentaciya/tekstury-i-materialy/physically-based-rendering/redaktor-skhem-pbr-i-konversiya-tekstur).  
+> Output 0 is metallic, output 1 is roughness.  
 ## WorldToProjected 
 ```
 	{"WorldToProjected"
@@ -988,21 +989,21 @@ HLSL代码实现：
 		{position 123 456}
 	}
 ``` 
-输入：
+Input(s)：
 * float3
 
-输出：
+Output(s)：
 * float3
 
->将输入的世界空间坐标转换到投影空间。
+>Converts the input world space coordinates to projected space.
 
 ---
-这是几个额外的代码块，我在硬编码里看到了它，但是我不知道要怎么用，也不确定它是否真的有用
+Here's a couple extra blocks of code, I saw it in the hardcoding, but I'm not sure what to do with it or if it's actually helpful.
 ## Desaturate  
-> 去饱和度？还是取消钳制？？
+> Desaturate? or de-saturate??
 ## SampleAtlas
-# 注释
-你可以放置一个只包含注释的代码块，被称为Comments，我相信这在材质编辑器中会很有用。
+# Comment
+You can place a block of code containing only comments, called Comments, which I'm sure will be useful in the material editor.
 
 ## Comments
 ```
@@ -1016,10 +1017,10 @@ HLSL代码实现：
 	}
 ```
 
->猜测size参数决定2d视图中该块的大小。
-# 自定义代码块
-这两个代码块用于添加自定义代码，我们在[自定义代码块](./custom.md)详细阐述这两个代码块的使用。
+>Guess the size parameter determines the size of the block in the 2d view.
+# Custom CodeBlock
+These two CodeBlocks are used to add custom code, and we elaborate on the use of these two CodeBlocks in [Custom CodeBlock](./custom.md).
 ## CustomCode  
->自定义代码。
+> Custom code.
 ## CustomVertexCode  
->自定义顶点着色器代码。
+> Custom vertex shader code.
